@@ -24,12 +24,12 @@ public protocol userSelected: class {
     ///   - xMax: x upper limit
     ///   - yMin: y lower limit
     ///   - yMax: y upper limit
-    public func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
+    func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
     
     
     /// User selected (x,y) point by clicking with the mouse.
     /// - Parameter point: X,Y point represented by click on XYPlot
-    public func userSelected(point: (x: Double, y: Double)?)
+    func userSelected(point: (x: Double, y: Double)?)
 }
 
 

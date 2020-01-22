@@ -169,8 +169,7 @@ public class XYPlot: NSView {
     public var plotLine3 = false
     public var plotMarker3 = true
 
-    
-    let plotLineWidth: CGFloat = 1.5
+    public let plotLineWidth: CGFloat = 2.0
 
     
     public var plotData1: [(Double, Double)] = [] {

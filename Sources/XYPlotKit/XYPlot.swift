@@ -16,7 +16,7 @@ public enum MouseAction {
 }
 
 
-pubic protocol userSelected: class {
+public protocol userSelected: class {
     
     /// User selected point limits by dragging rectable on XYPlot
     /// - Parameters:
@@ -207,7 +207,7 @@ public class XYPlot: NSView {
 
 
     // Mouse/Drag Events
-    override func mouseDown(with event: NSEvent) {
+    override public func mouseDown(with event: NSEvent) {
         // Swift.print("mouse down")
          startPoint = convert(event.locationInWindow, from: nil)
         
@@ -235,7 +235,7 @@ public class XYPlot: NSView {
         }
     }
     
-    override func mouseUp(with event: NSEvent) {
+    override public func mouseUp(with event: NSEvent) {
         // Swift.print("mouse up")
         endPoint = convert(event.locationInWindow, from: nil)
         // Swift.print(endPoint)
@@ -320,7 +320,7 @@ public class XYPlot: NSView {
         
     }
     
-    override func mouseDragged(with event: NSEvent) {
+    override public func mouseDragged(with event: NSEvent) {
         dragging = true
         if mouseAction == .dragSelection {
             let point: NSPoint = convert(event.locationInWindow, from: nil)
@@ -359,7 +359,7 @@ public class XYPlot: NSView {
     }
 
 
-    override func draw(_: CGRect) {
+    override public func draw(_: CGRect) {
         
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right

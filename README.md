@@ -1,3 +1,3 @@
 # XYPlotKit
 
-A description of this package.
+A General NSView tool for generating plots.

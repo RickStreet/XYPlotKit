@@ -140,9 +140,11 @@ public class XYPlot: NSView {
     var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    var attributeTitle: [NSAttributedString.Key: Any]
-    var attributeLabel: [NSAttributedString.Key: Any]
-    var attributeAxis: [NSAttributedString.Key: Any]
+    
+    // Attrubutes for plot title
+    public var attributeTitle: [NSAttributedString.Key: Any]
+    public var attributeLabel: [NSAttributedString.Key: Any]
+    public var attributeAxis: [NSAttributedString.Key: Any]
     // let attributeTitle: [NSAttributedStringKey: Any] = [ NSAttributedStringKey.foregroundColor: navy,
                                                          //NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-BoldItalic", size: titleFontSize)!]
     // let attributeLabel: [NSAttributedStringKey: Any] = [ NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): navy,

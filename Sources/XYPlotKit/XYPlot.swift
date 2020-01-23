@@ -410,13 +410,13 @@ public class XYPlot: NSView {
         for index in 0 ..< plotData.count {
             let plotPoint = XYPointToCoordinate(point: plotData[index])
             // Don't draw line across data slice
-            if abs(plotData1[index].0 - xLast) > Double(segmentSize) {
+            if abs(plotData[index].0 - xLast) > Double(segmentSize) {
                 plotPath.move(to: plotPoint)
             } else {
                 plotPath.line(to: plotPoint)
             }
             // print("line to (\(plotPoint.x), \(plotPoint.y))")
-            xLast = plotData1[index].0
+            xLast = plotData[index].0
 
         }
         color.setStroke()

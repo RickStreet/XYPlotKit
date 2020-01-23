@@ -452,7 +452,7 @@ public class XYPlot: NSView {
         path.stroke()
     }
     
-    public func markerCross(point: CGPoint) {
+    public func markerX(point: CGPoint) {
         let path = NSBezierPath()
         path.move(to: CGPoint(x: point.x - markerSize / 2, y: point.y - markerSize / 2))
         path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y + markerSize / 2))
@@ -462,7 +462,7 @@ public class XYPlot: NSView {
         path.stroke()
     }
     
-    public func markerX(point: CGPoint) {
+    public func markerCross(point: CGPoint) {
         let path = NSBezierPath()
         path.move(to: CGPoint(x: point.x, y: point.y - markerSize / 2))
         path.line(to: CGPoint(x: point.x, y: point.y + markerSize / 2))

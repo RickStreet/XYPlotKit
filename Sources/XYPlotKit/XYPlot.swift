@@ -9,6 +9,11 @@
 
 import Cocoa
 
+public protocol UserSelected: class {
+    func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
+    func userSelected(point: (x: Double, y: Double)?)
+}
+
 public enum MouseAction {
     case dragSelection
     case point
@@ -16,31 +21,31 @@ public enum MouseAction {
 }
 
 
-public protocol userSelected: class {
-    
-    /// User selected point limits by dragging rectable on XYPlot
-    /// - Parameters:
-    ///   - xMin: x lower limit
-    ///   - xMax: x upper limit
-    ///   - yMin: y lower limit
-    ///   - yMax: y upper limit
-    func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
-    
-    
-    /// User selected (x,y) point by clicking with the mouse.
-    /// - Parameter point: X,Y point represented by click on XYPlot
-    func userSelected(point: (x: Double, y: Double)?)
-}
-
-
 // @IBDesignable
-
-
 public class XYPlot: NSView {
+    // MARK: Properties
+     
+     public var plotData1: [(Double, Double)] = [] {
+         didSet {
+             if autoScaleX || autoScaleY {
+                 getAutoScale()
+             }
+             // needsDisplay = true
+         }
+     }
+
+    public var plotData2: [(Double, Double)] = [] {
+         didSet {
+             if autoScaleX || autoScaleY {
+                 getAutoScale()
+             }
+             // needsDisplay = true
+         }
+     }
+     
+     public var plotData3 = [(Double, Double)]() // for outliers
     
-    
-    /// Allows user to select points on plot with mouse
-    public weak var delegate: userSelected? = nil
+    public weak var delegate: UserSelected? = nil
     
     /*
     override var isOpaque: Bool {
@@ -48,37 +53,29 @@ public class XYPlot: NSView {
     */
     // lightGrey.setFill()
     
-    
-    /// Type of mouse action to perform on XYPlot
-
-    
-    /// Type of mouse action used for user to select data on the plot
+ 
     public var mouseAction = MouseAction.dragSelection
     
     /// Auto Scale X-Axis
     public var autoScaleX: Bool = true
     
-    /// Auto Scale Y-Axis
+        /// Auto Scale Y-Axis
     public var autoScaleY: Bool = true
     
     // Plot Limits
-    /// Min plot x limit
     public var xLow: Double = 0.0
-    /// Max plot x lmiit
     public var xHigh: Double = 100.0
-    /// Min plot y limit
     public var yLow: Double = 0.0
-    /// Max plot y limit
     public var yHigh: Double = 100.0
     
-    // Data Limits used to set axes if auto-scale
-    var xMin = 0.0
-    var xMax = 0.0
-    var yMin = 0.0
-    var yMax = 0.0
-    var labelFormatX = "%.0f"
-    var labelFormatY = "%.0f"
-    var labelFormat = "%.0f"
+    // Data Limits
+    public var xMin = 0.0
+    public var xMax = 0.0
+    public var yMin = 0.0
+    public var yMax = 0.0
+    public var labelFormatX = "%.0f"
+    public var labelFormatY = "%.0f"
+    public var labelFormat = "%.0f"
     
     // Colors
     let borderColor = NSColor.black
@@ -91,6 +88,8 @@ public class XYPlot: NSView {
     let textSpacing: CGFloat = 5
     let tickHeight: CGFloat = 10
     let markerSize: CGFloat = 10.0
+    public var segmentSize = 1 // Max distance to detect data slce (eng units) when drawing a lline
+
 
     public var yBy = 10.0
     public var xBy = 10.0
@@ -128,7 +127,7 @@ public class XYPlot: NSView {
     }
     
     @IBInspectable
-    public var yAxisTitle: String {
+    var yAxisTitle: String {
         get {
             return String(describing: labelYAxis)
         }
@@ -140,8 +139,6 @@ public class XYPlot: NSView {
     var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    
-    // Attrubutes for plot title
     public var attributeTitle: [NSAttributedString.Key: Any]
     public var attributeLabel: [NSAttributedString.Key: Any]
     public var attributeAxis: [NSAttributedString.Key: Any]
@@ -169,29 +166,10 @@ public class XYPlot: NSView {
     public var plotLine3 = false
     public var plotMarker3 = true
 
+    
     public let plotLineWidth: CGFloat = 2.0
 
-    
-    public var plotData1: [(Double, Double)] = [] {
-        didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
-            }
-            // needsDisplay = true
-        }
-    }
-
-   public var plotData2: [(Double, Double)] = [] {
-        didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
-            }
-            // needsDisplay = true
-        }
-    }
-    
-    public var plotData3 = [(Double, Double)]() // for outliers
-    
+    // MARK: Mouse Properties
     // Dragging Parameters
     var dragging = false
     var startPoint = CGPoint()
@@ -206,6 +184,7 @@ public class XYPlot: NSView {
     // Point make/delete Parameters
     public var pwlPoint: (Double, Double)? = nil
 
+    // MARK: Mouse Methods
 
     // Mouse/Drag Events
     override public func mouseDown(with event: NSEvent) {
@@ -335,14 +314,25 @@ public class XYPlot: NSView {
         }
     }
     
+    // MARK: Plotting Methods
     
-    public func xAxis(from: Double, to: Double, by: Double) {
+    /// Set x-axis properties
+    /// - Parameters:
+    ///   - from: Axes starting value
+    ///   - to: axes ending value
+    ///   - by: axes tick mark spacing
+   public func xAxis(from: Double, to: Double, by: Double) {
         autoScaleX = false
         xLow = from
         xHigh = to
         xBy = by
     }
-
+    
+    /// Set y-axis properties
+    /// - Parameters:
+    ///   - from: Axes starting value
+    ///   - to: axes ending value
+    ///   - by: axes tick mark spacing
     public func yAxis(from: Double, to: Double, by: Double) {
         autoScaleY = false
         yLow = from
@@ -350,6 +340,7 @@ public class XYPlot: NSView {
         yBy = by
     }
     
+    /// Clear all plot data
     public func clearPlot() {
         // NSColor.windowBackgroundColor().setFill()
         // NSRectFill(self.bounds)
@@ -358,7 +349,6 @@ public class XYPlot: NSView {
         plotData3.removeAll()
         prepareForReuse()
     }
-
 
     override public func draw(_: CGRect) {
         
@@ -371,121 +361,224 @@ public class XYPlot: NSView {
         // Draw Labels
         drawTitles()
         
-        
         // Draw graph border
         drawPlotBorder()
         drawTicks()
-        
        
         if plotData1.count > 0 {
-            
-            // NSColor.white.setFill()
-            // NSRectFill(bounds)
-            
-            
-            
-            // Normal Plot
-            // Draw First Plot Line
             // print("Drawing PlotLine 1")
-            
             if plotLine1 {
-                let plotPath1 = NSBezierPath()
-                plotPath1.move(to: XYPointToCoordinate(point: plotData1[0]))
-                for index in 1 ..< plotData1.count {
-                    let plotPoint = XYPointToCoordinate(point: plotData1[index])
-                    plotPath1.line(to: plotPoint)
-                }
-                plotColor1.setStroke()
-                plotPath1.lineWidth = plotLineWidth
-                plotPath1.stroke()
+                plotLine(plotData: plotData1, color: NSColor.blue)
             }
             
             if plotMarker1 {
-                plotColor1.setStroke()
-                let path = NSBezierPath()
-                for index in 0 ..< plotData1.count {
-                    let pointPlot = XYPointToCoordinate(point: plotData1[index])
-                    markerCross(point: pointPlot, path: path)
-                }
-                path.lineWidth = plotLineWidth
-                path.stroke()
+                // print("ploting 1 markers")
+                plotMarker(plotData: plotData1, color: NSColor.blue, marker: markerCross)
             }
-            
         }
         
         if plotData2.count > 0 {
-            // Draw Second Plot Line
             // print("Drawing PlotLine 2")
-            if plotLine2 {
-                let plotPath2 = NSBezierPath()
-                
-                plotPath2.move(to: XYPointToCoordinate(point: plotData2[0]))
-                for index in 1 ..< plotData2.count {
-                    plotPath2.line(to: XYPointToCoordinate(point: plotData2[index]))
-                }
-                plotColor2.setStroke()
-                plotPath2.lineWidth = plotLineWidth
-                plotPath2.stroke()
-            }
             
+            if plotLine2 {
+                plotLine(plotData: plotData2, color: forestColor)
+            }
+                        
             if plotMarker2 {
-                plotColor2.setStroke()
-                for index in 0 ..< plotData2.count {
-                    let pointPlot = XYPointToCoordinate(point: plotData2[index])
-                    let path = markerCircle(point: pointPlot)
-                    path.lineWidth = plotLineWidth
-                    path.stroke()
-                }
+                plotMarker(plotData: plotData2, color: NSColor.blue, marker: markerCross)
             }
         }
         
         // Plot Outliers
         if plotData3.count > 0 {
             if plotLine3 {
-                let plotPath3 = NSBezierPath()
-                plotPath3.move(to: XYPointToCoordinate(point: plotData3[0]))
-                for index in 1 ..< plotData3.count {
-                    let plotPoint = XYPointToCoordinate(point: plotData3[index])
-                    plotPath3.line(to: plotPoint)
-                }
-                plotColor3.setStroke()
-                plotPath3.lineWidth = plotLineWidth
-                plotPath3.stroke()
+                plotLine(plotData: plotData3, color: NSColor.red)
             }
             
             if plotMarker3 {
-                plotColor3.setStroke()
-                let path = NSBezierPath()
-                for index in 0 ..< plotData3.count {
-                    let pointPlot = XYPointToCoordinate(point: plotData3[index])
-                    markerCross(point: pointPlot, path: path)
-                }
-                path.lineWidth = plotLineWidth
-                path.stroke()
+                plotMarker(plotData: plotData3, color: NSColor.red, marker: markerCross)
             }
-            
         }
-
-    
-        /*
-        if let xMin = selectedXMin, let xMax = selectedXMax, let yMin = selectedYMin, let yMax = selectedYMax {
-            // Mark Selected
-            NSColor.red.setStroke()
-            for index in 0 ..< plotData1.count {
-                if plotData1[index].0 >= xMin && plotData1[index].0 <= xMax && plotData1[index].1 >= yMin && plotData1[index].1 <= yMax {
-                    Swift.print(plotData1[index])
-                    let pointPlot = XYPointToCoordinate(point: plotData1[index])
-                    let path = markerCross(point: pointPlot)
-                    path.lineWidth = plotLineWidth
-                    path.stroke()
-                }
-            }
-            
-        }
-        */
-        
     }
     
+    func plotLine(plotData: [(Double, Double)], color: NSColor) {
+        let plotPath = NSBezierPath()
+        plotPath.move(to: XYPointToCoordinate(point: plotData[0]))
+        var xLast = plotData[0].0
+
+        // print("moved to (\(plotData[0].0), \(plotData[0].1))")
+        for index in 0 ..< plotData.count {
+            let plotPoint = XYPointToCoordinate(point: plotData[index])
+            // Don't draw line across data slice
+            if abs(plotData1[index].0 - xLast) > Double(segmentSize) {
+                plotPath.move(to: plotPoint)
+            } else {
+                plotPath.line(to: plotPoint)
+            }
+            // print("line to (\(plotPoint.x), \(plotPoint.y))")
+            xLast = plotData1[index].0
+
+        }
+        color.setStroke()
+        plotPath.lineWidth = plotLineWidth
+        plotPath.stroke()
+
+    }
+    
+    func plotMarker(plotData: [(Double, Double)], color: NSColor, marker: (CGPoint) -> Void) {
+        color.setStroke()
+        for index in 0 ..< plotData.count {
+            let pointPlot = XYPointToCoordinate(point: plotData[index])
+            marker(pointPlot)
+        }
+    }
+    
+    
+    func markerCircle(point: CGPoint) {
+        let radius = markerSize / 2.0
+        let path = NSBezierPath()
+        path.appendArc(withCenter: point, radius: radius, startAngle: 0, endAngle: 360)
+        path.lineWidth = plotLineWidth
+        path.stroke()
+    }
+    
+    func markerCross(point: CGPoint) {
+        let path = NSBezierPath()
+        path.move(to: CGPoint(x: point.x - markerSize / 2, y: point.y - markerSize / 2))
+        path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y + markerSize / 2))
+        path.move(to: CGPoint(x: point.x + markerSize / 2, y: point.y - markerSize / 2))
+        path.line(to: CGPoint(x: point.x - markerSize / 2, y: point.y + markerSize / 2))
+        path.lineWidth = plotLineWidth
+        path.stroke()
+    }
+
+    func markerX(point: CGPoint) {
+        let path = NSBezierPath()
+        path.move(to: CGPoint(x: point.x, y: point.y - markerSize / 2))
+        path.line(to: CGPoint(x: point.x, y: point.y + markerSize / 2))
+        path.move(to: CGPoint(x: point.x - markerSize / 2, y: point.y))
+        path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y))
+        path.lineWidth = plotLineWidth
+        path.stroke()
+    }
+
+      func drawPlotBorder() {
+          // origin is inm lower left corner
+          
+          let borderPath = NSBezierPath()
+          borderPath.move(to: CGPoint(x: leftMargin , y: bottomMargin))
+          borderPath.line(to: CGPoint(x: width - rightMargin, y: bottomMargin))
+          borderPath.line(to: CGPoint(x: width - rightMargin, y: height - topMargin))
+          borderPath.line(to: CGPoint(x: leftMargin , y: height - topMargin))
+          borderPath.close()
+          
+          lightestGray.setFill()
+          borderPath.fill()
+          
+          borderColor.setStroke()
+          borderPath.stroke()
+      }
+      
+      func drawTicks() {
+          var number: Double = xLow
+          while number <= xHigh {
+              drawXTick(value: number)
+              number += xBy
+          }
+          
+          number = yLow
+          while number <= yHigh {
+              drawYTick(value: number)
+              number += yBy
+          }
+    }
+      
+      func drawXTick(value: Double) {
+          let xFraction = (value - xLow) / (xHigh - xLow)
+          let x = xFraction * Double(width - leftMargin - rightMargin)
+          let tick = NSBezierPath()
+          tick.move(to: CGPoint(x: leftMargin + CGFloat(x), y: bottomMargin - tickHeight / 2.0))
+          tick.line(to: CGPoint(x: leftMargin + CGFloat(x), y: bottomMargin + tickHeight / 2.0))
+          borderColor.setStroke()
+          tick.stroke()
+
+          let tickLabel = NSMutableAttributedString(string: String(format: labelFormatX, value))
+          let attribute: [NSAttributedString.Key: Any] = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): labelColor,
+                                                          NSAttributedString.Key.font: labelFont]
+          tickLabel.addAttributes(attribute, range: NSRange(location: 0, length: tickLabel.length))
+          let size =  tickLabel.size()
+          tickLabel.draw(in: CGRect(x: leftMargin + CGFloat(x) - size.width / 2, y:  bottomMargin - size.height - textSpacing, width: size.width, height: size.height) )
+      }
+      
+      func drawYTick(value: Double) {
+          let yFraction = (value - yLow) / (yHigh - yLow)
+          let y = yFraction * Double(height - topMargin - bottomMargin)
+          let tick = NSBezierPath()
+          tick.move(to: CGPoint(x: leftMargin - tickHeight / 2.0, y: bottomMargin + CGFloat(y)))
+          tick.line(to: CGPoint(x: leftMargin + tickHeight / 2.0, y: bottomMargin + CGFloat(y)))
+          borderColor.setStroke()
+          tick.stroke()
+          
+          let tickLabel = NSMutableAttributedString(string: String(format: labelFormatY, value))
+          let attribute: [NSAttributedString.Key: Any] = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): labelColor,
+                                                          NSAttributedString.Key.font: labelFont]
+          tickLabel.addAttributes(attribute, range: NSRange(location: 0, length: tickLabel.length))
+          let size =  tickLabel.size()
+          tickLabel.draw(in: CGRect(x: leftMargin - tickHeight - size.width - textSpacing * 0.5, y:   bottomMargin + CGFloat(y) - size.height / 2, width: size.width, height: size.height) )
+      }
+      
+      func drawTitles() {
+
+          labelTitle.addAttributes(attributeTitle, range: NSRange(location: 0, length: labelTitle.length))
+          var size = labelTitle.size()
+
+          var r = CGRect(x:(width - leftMargin - rightMargin - size.width)/2 + leftMargin,
+                         y: height - topMargin + textSpacing,
+                         width: width,
+                         height: size.height)
+          labelTitle.draw(in: r)
+          
+          // X-Axis Label
+          labelXAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelXAxis.length))
+          size = labelXAxis.size()
+      
+          r = CGRect(x: (width - leftMargin - rightMargin - size.width)/2 + leftMargin,
+                     y: 0,
+                     width: width,
+                     height: size.height)
+              labelXAxis.draw(in: r)
+          
+          
+          // Y-Axis Label
+          // labelYAxis.addAttributes(attribute, range: NSRange(location: 0, length: labelXAxis.length))
+          labelYAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelYAxis.length))
+          size = labelYAxis.size()
+          r = CGRect(x: 0,
+                     y: 0,
+                     width: size.width,
+                     height: size.height)
+          
+          // Save context
+          let context = NSGraphicsContext.current?.cgContext
+          context!.saveGState()
+          
+          // Rotate the context 90 degrees (convert to radians)
+          let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2.0))
+          context!.concatenate(rotationTransform)
+          
+          // Move the context back into the view
+          var myX = -height + topMargin + (height - topMargin - bottomMargin) / 2
+          myX = myX - size.width / 2
+          context!.translateBy(x: myX, y: 0)
+          
+          labelYAxis.draw(in: r)
+          
+          // Restore Context
+          context!.restoreGState()
+      }
+
+    // MARK: Plot Calculations
+
     func XYPointToCoordinate(point: (Double, Double)) -> CGPoint {
         let xFraction = (point.0 - xLow) / (xHigh - xLow)
         let yFraction = (point.1 - yLow) / (yHigh - yLow)
@@ -501,7 +594,6 @@ public class XYPlot: NSView {
         let y = Double(yCG) * (yHigh - yLow) + yLow
         return (x, y)
     }
-    
     
     func getAutoScale() {
         if plotData1.count > 0 {
@@ -539,10 +631,6 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        // Swift.print("min x: \(xMin)")
-        // Swift.print("max x: \(xMax)")
-        // Swift.print("min y: \(yMin)")
-        // Swift.print("max y: \(yMax)")
         
         if autoScaleX {
             // xLow = xLowTemp
@@ -568,7 +656,6 @@ public class XYPlot: NSView {
             // Swift.print("yLow: \(yLow)   yHigh: \(yHigh)")
         }
     }
-
 
     private func calcAxis(length: CGFloat, min: Double, max: Double) -> (from: Double, to: Double, by: Double) {
         let maxTicks = 12
@@ -643,154 +730,6 @@ public class XYPlot: NSView {
             return -ceil(-value / by) * by
         }
     }
-    
-    
-    func markerCircle(point: CGPoint) -> NSBezierPath
-    {
-        let radius = markerSize / 2.0
-        let path = NSBezierPath()
-        path.appendArc(withCenter: point, radius: radius, startAngle: 0, endAngle: 360)
-        return path
-    }
-    
-    func markerCross(point: CGPoint, path: NSBezierPath) {
-        // let path = NSBezierPath()
-        path.move(to: CGPoint(x: point.x, y: point.y - markerSize / 2))
-        path.line(to: CGPoint(x: point.x, y: point.y + markerSize / 2))
-        path.move(to: CGPoint(x: point.x - markerSize / 2, y: point.y))
-        path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y))
-        return
-    }
-
-    
-
-    func drawPlotBorder() {
-        // origin is inm lower left corner
-        // let rectangle = CGRect(x: leftMargin, y: bottomMargin, width: width - rightMargin, height: height - topMargin)
-        
-        // Wil start
-        let borderPath = NSBezierPath()
-        borderPath.move(to: CGPoint(x: leftMargin , y: bottomMargin))
-        borderPath.line(to: CGPoint(x: width - rightMargin, y: bottomMargin))
-        borderPath.line(to: CGPoint(x: width - rightMargin, y: height - topMargin))
-        borderPath.line(to: CGPoint(x: leftMargin , y: height - topMargin))
-        borderPath.close()
-        
-        lightestGray.setFill()
-        borderPath.fill()
-        
-        borderColor.setStroke()
-        borderPath.stroke()
-    }
-    
-    func drawTicks() {
-        var number: Double = xLow
-        while number <= xHigh {
-            drawXTick(value: number)
-            number += xBy
-        }
-        
-        number = yLow
-        while number <= yHigh {
-            drawYTick(value: number)
-            number += yBy
-        }
-  }
-    
-    func drawXTick(value: Double) {
-        let xFraction = (value - xLow) / (xHigh - xLow)
-        let x = xFraction * Double(width - leftMargin - rightMargin)
-        let tick = NSBezierPath()
-        tick.move(to: CGPoint(x: leftMargin + CGFloat(x), y: bottomMargin - tickHeight / 2.0))
-        tick.line(to: CGPoint(x: leftMargin + CGFloat(x), y: bottomMargin + tickHeight / 2.0))
-        borderColor.setStroke()
-        tick.stroke()
-
-        let tickLabel = NSMutableAttributedString(string: String(format: labelFormatX, value))
-        let attribute: [NSAttributedString.Key: Any] = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): labelColor,
-                                                        NSAttributedString.Key.font: labelFont]
-        tickLabel.addAttributes(attribute, range: NSRange(location: 0, length: tickLabel.length))
-        let size =  tickLabel.size()
-        tickLabel.draw(in: CGRect(x: leftMargin + CGFloat(x) - size.width / 2, y:  bottomMargin - size.height - textSpacing, width: size.width, height: size.height) )
-
-        
-        
-    }
-    
-    func drawYTick(value: Double) {
-        let yFraction = (value - yLow) / (yHigh - yLow)
-        let y = yFraction * Double(height - topMargin - bottomMargin)
-        let tick = NSBezierPath()
-        tick.move(to: CGPoint(x: leftMargin - tickHeight / 2.0, y: bottomMargin + CGFloat(y)))
-        tick.line(to: CGPoint(x: leftMargin + tickHeight / 2.0, y: bottomMargin + CGFloat(y)))
-        borderColor.setStroke()
-        tick.stroke()
-        
-        let tickLabel = NSMutableAttributedString(string: String(format: labelFormatY, value))
-        let attribute: [NSAttributedString.Key: Any] = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): labelColor,
-                                                        NSAttributedString.Key.font: labelFont]
-        tickLabel.addAttributes(attribute, range: NSRange(location: 0, length: tickLabel.length))
-        let size =  tickLabel.size()
-        tickLabel.draw(in: CGRect(x: leftMargin - tickHeight - size.width - textSpacing * 0.5, y:   bottomMargin + CGFloat(y) - size.height / 2, width: size.width, height: size.height) )
-        
-    }
-    
-    
-    
-    
-    func drawTitles() {
-
-        labelTitle.addAttributes(attributeTitle, range: NSRange(location: 0, length: labelTitle.length))
-        var size = labelTitle.size()
-
-        var r = CGRect(x:(width - leftMargin - rightMargin - size.width)/2 + leftMargin,
-                       y: height - topMargin + textSpacing,
-                       width: width,
-                       height: size.height)
-        labelTitle.draw(in: r)
-        
-        // X-Axis Label
-        labelXAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelXAxis.length))
-        size = labelXAxis.size()
-    
-        r = CGRect(x: (width - leftMargin - rightMargin - size.width)/2 + leftMargin,
-                   y: 0,
-                   width: width,
-                   height: size.height)
-            labelXAxis.draw(in: r)
-        
-        
-        // Y-Axis Label
-        // labelYAxis.addAttributes(attribute, range: NSRange(location: 0, length: labelXAxis.length))
-        labelYAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelYAxis.length))
-        size = labelYAxis.size()
-        r = CGRect(x: 0,
-                   y: 0,
-                   width: size.width,
-                   height: size.height)
-        
-        // Save context
-        let context = NSGraphicsContext.current?.cgContext
-        context!.saveGState()
-        
-        // Rotate the context 90 degrees (convert to radians)
-        let rotationTransform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi / 2.0))
-        context!.concatenate(rotationTransform)
-        
-        // Move the context back into the view
-        // CGContextTranslateCTM(context, height + bottomMargin, 0);
-        // CGContextTranslateCTM(context!, -height + topMargin + (height - topMargin - bottomMargin) / 2 - size.width / 2, 0)
-        var myX = -height + topMargin + (height - topMargin - bottomMargin) / 2
-        // myX = myX / 2
-        myX = myX - size.width / 2
-        context!.translateBy(x: myX, y: 0)
-        
-        labelYAxis.draw(in: r)
-        
-        // Restore Context
-        context!.restoreGState()
-    }
-    
   
     var bottomMargin: CGFloat {
         get {
@@ -868,7 +807,7 @@ public class XYPlot: NSView {
         return calcAxis(length: xLabelWidth, min: low  , max: high)
     }
     
-    public override init(frame frameRect: NSRect) {
+    override init(frame frameRect: NSRect) {
         attributeTitle = [ NSAttributedString.Key.foregroundColor: navy,
                                                              NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
         attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
@@ -890,7 +829,5 @@ public class XYPlot: NSView {
                          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
         super.init(coder: coder)
     }
-
-
     
 }

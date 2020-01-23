@@ -127,7 +127,7 @@ public class XYPlot: NSView {
     }
     
     @IBInspectable
-    var yAxisTitle: String {
+    public var yAxisTitle: String {
         get {
             return String(describing: labelYAxis)
         }

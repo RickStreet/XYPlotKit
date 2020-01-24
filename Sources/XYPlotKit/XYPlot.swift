@@ -414,7 +414,7 @@ public class XYPlot: NSView {
         // Plot Outliers
         if plot3Data.count > 0 {
             if plot3DrawLine {
-                plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: )
+                plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }
             if plot3DrawMarker {
                 // if let marker = plot3Marker {

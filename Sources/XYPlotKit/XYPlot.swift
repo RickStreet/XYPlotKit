@@ -56,6 +56,12 @@ public class XYPlot: NSView {
     public lazy var plot2Marker: ((CGPoint) -> Void) = markerCross
     public lazy var plot3Marker: ((CGPoint) -> Void) = markerCross
     
+    // Plot Lines Check for Slices
+    public var plot1Line1Slices = false
+    public var plot2Line1Slices = false
+    public var plot3Line1Slices = false
+
+    // Draw lines and markers
     public var plot1DrawLine = false
     public var plot1DrawMarker = true
     
@@ -385,7 +391,7 @@ public class XYPlot: NSView {
         if plot1Data.count > 0 {
             // print("Drawing PlotLine 1")
             if plot1DrawLine {
-                plotLine(plotData: plot1Data, color: plot1Color)
+                plotLine(plotData: plot1Data, color: plot1Color, checkForSlices: plot1Line1Slices)
             }
             if plot1DrawMarker {
                 // if let marker = plot1Marker {
@@ -396,7 +402,7 @@ public class XYPlot: NSView {
         
         if plot2Data.count > 0 {
             if plot2DrawLine {
-                plotLine(plotData: plot2Data, color: plot2Color)
+                plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
             if plot2DrawMarker {
                 // if let marker = plot2Marker {
@@ -408,7 +414,7 @@ public class XYPlot: NSView {
         // Plot Outliers
         if plot3Data.count > 0 {
             if plot3DrawLine {
-                plotLine(plotData: plot3Data, color: plot3Color)
+                plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: )
             }
             if plot3DrawMarker {
                 // if let marker = plot3Marker {
@@ -419,7 +425,7 @@ public class XYPlot: NSView {
         }
     }
     
-    func plotLine(plotData: [(Double, Double)], color: NSColor) {
+    func plotLine(plotData: [(Double, Double)], color: NSColor, checkForSlices: Bool) {
         let plotPath = NSBezierPath()
         plotPath.move(to: XYPointToCoordinate(point: plotData[0]))
         var xLast = plotData[0].0
@@ -428,7 +434,7 @@ public class XYPlot: NSView {
         for index in 0 ..< plotData.count {
             let plotPoint = XYPointToCoordinate(point: plotData[index])
             // Don't draw line across data slice
-            if abs(plotData[index].0 - xLast) > Double(segmentSize) {
+            if abs(plotData[index].0 - xLast) > Double(segmentSize) && checkForSlices{
                 plotPath.move(to: plotPoint)
             } else {
                 plotPath.line(to: plotPoint)

@@ -60,7 +60,15 @@ public class XYPlot: NSView {
     public var plot1DrawMarker = true
     
     public var plot2DrawLine = true
-    public var plot2DrawMarker = false
+    public var plot2DrawMarker: Bool = false {
+        didSet {
+            if plot2DrawLine {
+                print("Plot 2: Draw Line")
+            } else {
+                print("Plot 2: No Line!")
+            }
+        }
+    }
     
     public var plot3DrawLine = false
     public var plot3DrawMarker = true
@@ -193,7 +201,7 @@ public class XYPlot: NSView {
     var shapeLayer : CAShapeLayer!
     
     // Point make/delete Parameters
-    public var pwlPoint: (Double, Double)? = nil
+    // public var pwlPoint: (Double, Double)? = nil
     
     // MARK: Mouse Methods
     

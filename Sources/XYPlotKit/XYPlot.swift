@@ -172,6 +172,9 @@ public class XYPlot: NSView {
         }
     }
     public var customTitle: NSMutableAttributedString?
+    public var customXAxisTitle: NSMutableAttributedString?
+    public var customYAxisTitle: NSMutableAttributedString?
+
     var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
@@ -568,7 +571,11 @@ public class XYPlot: NSView {
         labelTitle.draw(in: r)
         
         // X-Axis Label
-        labelXAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelXAxis.length))
+        if let customXAxisTitle = customXAxisTitle {
+            labelXAxis = customXAxisTitle
+        } else {
+            labelXAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelXAxis.length))
+        }
         size = labelXAxis.size()
         
         r = CGRect(x: (width - leftMargin - rightMargin - size.width)/2 + leftMargin,
@@ -580,7 +587,11 @@ public class XYPlot: NSView {
         
         // Y-Axis Label
         // labelYAxis.addAttributes(attribute, range: NSRange(location: 0, length: labelXAxis.length))
-        labelYAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelYAxis.length))
+        if let customYAxisTitle = customYAxisTitle {
+            labelYAxis = customYAxisTitle
+        } else {
+            labelYAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelYAxis.length))
+        }
         size = labelYAxis.size()
         r = CGRect(x: 0,
                    y: 0,

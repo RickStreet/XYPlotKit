@@ -827,7 +827,7 @@ public class XYPlot: NSView {
         }
     }
     
-    func getXAxis(low: Double, high: Double) -> (from: Double, to: Double, by: Double) {
+    public func getXAxis(low: Double, high: Double) -> (from: Double, to: Double, by: Double) {
         return calcAxis(length: xLabelWidth, min: low  , max: high)
     }
     

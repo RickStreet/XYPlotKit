@@ -171,10 +171,10 @@ public class XYPlot: NSView {
             labelYAxis = NSMutableAttributedString(string: newValue)
         }
     }
-    
-    public var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    public var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    public var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    public var customTitle: NSMutableAttributedString?
+    var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     public var attributeTitle: [NSAttributedString.Key: Any]
     public var attributeLabel: [NSAttributedString.Key: Any]
     public var attributeAxis: [NSAttributedString.Key: Any]
@@ -553,9 +553,14 @@ public class XYPlot: NSView {
     
     func drawTitles() {
         
-        labelTitle.addAttributes(attributeTitle, range: NSRange(location: 0, length: labelTitle.length))
-        var size = labelTitle.size()
+        if let customTitle = customTitle {
+            labelTitle = customTitle
+        } else {
+            labelTitle.addAttributes(attributeTitle, range: NSRange(location: 0, length: labelTitle.length))
+        }
         
+        var size = labelTitle.size()
+
         var r = CGRect(x:(width - leftMargin - rightMargin - size.width)/2 + leftMargin,
                        y: height - topMargin + textSpacing,
                        width: width,

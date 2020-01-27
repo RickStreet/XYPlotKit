@@ -172,9 +172,9 @@ public class XYPlot: NSView {
         }
     }
     
-    var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
-    var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    public var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    public var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    public var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     public var attributeTitle: [NSAttributedString.Key: Any]
     public var attributeLabel: [NSAttributedString.Key: Any]
     public var attributeAxis: [NSAttributedString.Key: Any]

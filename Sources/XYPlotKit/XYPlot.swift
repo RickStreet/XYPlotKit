@@ -692,9 +692,9 @@ public class XYPlot: NSView {
             // yLow = yLowTemp
             // yHigh = yHighTemp
             // Swift.print("calling calcAxis")
-            var axis = (from: -0.25, to: 0.25, by: 0.02)
+            var axis = (from: -0.01, to: 0.01, by: 0.001)
             if yMax - yMin < 0.001 {
-                axis = calcAxis(length: labelHeight, min: -0.25, max: 0.25)
+                axis = calcAxis(length: labelHeight, min: -0.01, max: 0.01)
             } else {
                 axis = calcAxis(length: labelHeight, min: yMin, max: yMax)
             }

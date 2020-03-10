@@ -130,8 +130,13 @@ public class XYPlot: NSView {
     public var yBy = 10.0
     public var xBy = 10.0
     
+    public var titleFontSize = 15.0
+    public var axesTitleFontSize = 12.0
+
+    
     var labelColor = NSColor.black
-    var labelFont = NSFont(name: "Helvetica Neue", size: 15.0)!
+    lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
+
     var labelXLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")
     // var labelXHigh: NSMutableAttributedString = NSMutableAttributedString(string:"100.0")
     var labelYLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")
@@ -687,7 +692,12 @@ public class XYPlot: NSView {
             // yLow = yLowTemp
             // yHigh = yHighTemp
             // Swift.print("calling calcAxis")
-            let axis = calcAxis(length: labelHeight, min: yMin, max: yMax)
+            var axis = (from: -0.25, to: 0.25, by: 0.02)
+            if yMax - yMin < 0.001 {
+                axis = calcAxis(length: labelHeight, min: -0.25, max: 0.25)
+            } else {
+                axis = calcAxis(length: labelHeight, min: yMin, max: yMax)
+            }
             labelFormatY = labelFormat
             // Swift.print("returned from calcAxis")
             yLow = axis.from

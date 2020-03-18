@@ -25,6 +25,119 @@ public enum MouseAction {
 public class XYPlot: NSView {
     // MARK: Properties
     
+    
+    // Bar Graph Data
+    public var binRange = 1.0
+    public var numberBins = 0
+    public var data: [Double] = []
+    public var bins = [Int]()
+    
+    func histogram(numberBins: Int, data: [Double]) {
+        self.numberBins = numberBins
+        self.data = data
+        let histogram = data.histogram(numberBins: numberBins)
+        bins = histogram.bins
+        binRange = histogram.binRange
+        yMin = 0.0
+        if let max = bins.max() {
+            yMax = Double(max)
+        }
+        
+        if let min = data.min() {
+            xMin = min
+        }
+        if let max = data.max() {
+            xMax = max
+        }
+        print("x: min \(xMin)  max \(xMax)")
+        print("y: min \(yMin)  max \(yMax)")
+        
+        let xAxis = calcAxis(length: xLabelWidth, min: xMin, max: xMax)
+        labelFormatX = labelFormat
+        xLow = xAxis.from
+        xHigh = xAxis.to
+        xBy = xAxis.by
+        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        
+        let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
+        labelFormatY = labelFormat
+        yLow = yAxis.from
+        yHigh = yAxis.to
+        yBy = yAxis.by
+        
+        print("bins \(bins)")
+        print("binRange \(binRange)")
+    }
+    
+    func histogram(binRange: Double, data: [Double]) {
+        self.binRange = binRange
+        self.data = data
+        bins = data.histogram(binRange: binRange)
+        numberBins = bins.count
+        updateHistogram(binRange: binRange)
+        /*
+         if let min = data.min() {
+         xMin = min
+         }
+         if let max = data.max() {
+         xMax = max
+         }
+         
+         
+         yMin = 0.0
+         if let max = bins.max() {
+         yMax = Double(max)
+         }
+         
+         let xAxis = calcAxis(length: 20.0, min: xMin, max: xMax, minTicks: 5, maxTicks: 20)
+         labelFormatX = labelFormat
+         xLow = xAxis.from
+         xHigh = xAxis.to
+         xBy = xAxis.by
+         print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+         
+         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
+         labelFormatY = labelFormat
+         yLow = yAxis.from
+         yHigh = yAxis.to
+         yBy = yAxis.by
+         */
+    }
+    
+    func updateHistogram(binRange: Double) {
+        self.binRange = binRange
+        bins = data.histogram(binRange: binRange)
+        numberBins = bins.count
+        if let min = data.min() {
+            xMin = min
+        }
+        if let max = data.max() {
+            xMax = max
+        }
+        
+        
+        yMin = 0.0
+        if let max = bins.max() {
+            yMax = Double(max)
+        }
+        
+        let xAxis = calcAxis(length: 20.0, min: xMin, max: xMax, minTicks: 5, maxTicks: 20)
+        labelFormatX = labelFormat
+        xLow = xAxis.from - binRange / 2
+        xHigh = xAxis.to
+        xBy = xAxis.by
+        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        
+        let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
+        labelFormatY = labelFormat
+        yLow = yAxis.from
+        yHigh = yAxis.to
+        yBy = yAxis.by
+        self.needsDisplay = true
+        
+    }
+    
+    
     // Plot Data
     public var plot1Data: [(Double, Double)] = [] {
         didSet {
@@ -47,6 +160,7 @@ public class XYPlot: NSView {
     public var plot3Data = [(Double, Double)]() // for outliers
     
     // Plot Colors
+    public var barColor = lightBlue
     public var plot1Color = NSColor.blue
     public var plot2Color = forestColor
     public var plot3Color = NSColor.red
@@ -60,7 +174,7 @@ public class XYPlot: NSView {
     public var plot1Line1Slices = false
     public var plot2Line1Slices = false
     public var plot3Line1Slices = false
-
+    
     // Draw lines and markers
     public var plot1DrawLine = false
     public var plot1DrawMarker = true
@@ -132,11 +246,11 @@ public class XYPlot: NSView {
     
     public var titleFontSize = 15.0
     public var axesTitleFontSize = 12.0
-
+    
     
     var labelColor = NSColor.black
     lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
-
+    
     var labelXLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")
     // var labelXHigh: NSMutableAttributedString = NSMutableAttributedString(string:"100.0")
     var labelYLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")
@@ -179,7 +293,7 @@ public class XYPlot: NSView {
     public var customTitle: NSMutableAttributedString?
     public var customXAxisTitle: NSMutableAttributedString?
     public var customYAxisTitle: NSMutableAttributedString?
-
+    
     var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
@@ -396,6 +510,10 @@ public class XYPlot: NSView {
         drawPlotBorder()
         drawTicks()
         
+        if bins.count > 2 {
+            plotBars(color: barColor, marker: plot1Marker)
+        }
+        
         if plot1Data.count > 0 {
             // print("Drawing PlotLine 1")
             if plot1DrawLine {
@@ -403,7 +521,7 @@ public class XYPlot: NSView {
             }
             if plot1DrawMarker {
                 // if let marker = plot1Marker {
-                    plotMarker(plotData: plot1Data, color: plot1Color, marker: plot1Marker)
+                plotMarker(plotData: plot1Data, color: plot1Color, marker: plot1Marker)
                 // }
             }
         }
@@ -414,7 +532,7 @@ public class XYPlot: NSView {
             }
             if plot2DrawMarker {
                 // if let marker = plot2Marker {
-                    plotMarker(plotData: plot2Data, color: plot2Color, marker: plot2Marker)
+                plotMarker(plotData: plot2Data, color: plot2Color, marker: plot2Marker)
                 //}
             }
         }
@@ -426,8 +544,8 @@ public class XYPlot: NSView {
             }
             if plot3DrawMarker {
                 // if let marker = plot3Marker {
-                    plotMarker(plotData: plot3Data, color: plot3Color, marker: plot3Marker)
-
+                plotMarker(plotData: plot3Data, color: plot3Color, marker: plot3Marker)
+                
                 // }
             }
         }
@@ -465,6 +583,27 @@ public class XYPlot: NSView {
         }
     }
     
+    func plotBars(color: NSColor, marker: (CGPoint) -> Void) {
+        color.setStroke()
+        for (i, count) in bins.enumerated() {
+            let borderPath = NSBezierPath()
+            // color.setStroke()
+            borderPath.move(to: CGPoint(x: xPointCoordinate(Double(i) * binRange), y: yPointCoordinate(0.0)))
+            borderPath.line(to: CGPoint(x: xPointCoordinate(Double(i) * binRange), y: yPointCoordinate(Double(count))))
+            borderPath.line(to: CGPoint(x: xPointCoordinate(Double(i + 1) * binRange), y: yPointCoordinate(Double(count))))
+            borderPath.line(to: CGPoint(x: xPointCoordinate(Double(i + 1) * binRange) , y: yPointCoordinate(0.0)))
+            borderPath.close()
+            NSColor.black.setStroke()
+            borderPath.stroke()
+            
+            color.setFill()
+            borderPath.fill()
+            
+            // color.setStroke()
+            // borderPath.stroke()
+            
+        }
+    }
     
     public func markerCircle(point: CGPoint) {
         let radius = markerSize / 2.0
@@ -568,7 +707,7 @@ public class XYPlot: NSView {
         }
         
         var size = labelTitle.size()
-
+        
         var r = CGRect(x:(width - leftMargin - rightMargin - size.width)/2 + leftMargin,
                        y: height - topMargin + textSpacing,
                        width: width,
@@ -631,6 +770,19 @@ public class XYPlot: NSView {
         let y = yFraction * Double(height - topMargin - bottomMargin) + Double(bottomMargin)
         return CGPoint(x: CGFloat(x), y: CGFloat(y))
     }
+    
+    func xPointCoordinate(_ x: Double) -> CGFloat {
+        let xFraction = (x - xLow) / (xHigh - xLow)
+        let xDouble = xFraction * Double(width - leftMargin - rightMargin) + Double(leftMargin)
+        return CGFloat(xDouble)
+    }
+    
+    func yPointCoordinate(_ y: Double) -> CGFloat {
+        let yFraction = (y - yLow) / (yHigh - yLow)
+        let yDouble = yFraction * Double(height - topMargin - bottomMargin) + Double(bottomMargin)
+        return CGFloat(yDouble)
+    }
+    
     
     func CGToXY (point: CGPoint) -> (Double, Double) {
         let xCG = (point.x - leftMargin) / (width - leftMargin - rightMargin)
@@ -708,8 +860,22 @@ public class XYPlot: NSView {
     }
     
     private func calcAxis(length: CGFloat, min: Double, max: Double) -> (from: Double, to: Double, by: Double) {
-        let maxTicks = 12
-        let minTicks = 5
+        return calcAxis(length: length, min: min, max: max, minTicks: 5, maxTicks: 12)
+    }
+    
+    /// Calc axis min, max and tick distance
+    /// - Parameters:
+    ///   - length: length of label for tick, CGFloat
+    ///   - min: Min value for axis, Double
+    ///   - max: Max value for axix, Double
+    /// - returns
+    /// - tuple where
+    /// - from: start of axis, Double
+    /// - to: end of axis, Double
+    /// - by: distance between ticks, Double
+    private func calcAxis(length: CGFloat, min: Double, max: Double, minTicks: Int, maxTicks: Int) -> (from: Double, to: Double, by: Double) {
+        // let maxTicks = 12
+        // let minTicks = 5
         
         var ticks = Int(width / (length * 2))
         if ticks > maxTicks {
@@ -867,10 +1033,10 @@ public class XYPlot: NSView {
                            NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
         attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
                          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
-
-
+        
+        
         super.init(frame:frameRect)
-
+        
     }
     
     
@@ -882,10 +1048,11 @@ public class XYPlot: NSView {
                            NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
         attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
                          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
-
+        
         super.init(coder: coder)
     }
     
     
     
 }
+

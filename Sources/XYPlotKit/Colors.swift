@@ -15,3 +15,4 @@ public let lightestGray = NSColor(red: 248.0/255.0, green: 248.0/255.0, blue: 24
 public let white = NSColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
 public let darkRed = NSColor(red: 137.0/255.0, green: 33.0/255.0, blue: 16.0/255.0, alpha: 1.0)
 public let forestColor = NSColor(red: 0.0/255.0, green: 153.0/255.0, blue: 76.0/255.0, alpha: 1.0)
+public let lightBlue = NSColor(red: 134.0/255.0, green: 202.0/255.0, blue: 240.0/255.0, alpha: 1.0)

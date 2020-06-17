@@ -315,7 +315,8 @@ public class XYPlot: NSView {
     
     
     public var plotLineWidth: CGFloat = 2.0
-    
+    public var markerLineWidth: CGFloat = 2.0
+
     // MARK: Mouse Properties
     // Dragging Parameters
     var dragging = false
@@ -609,7 +610,7 @@ public class XYPlot: NSView {
         let radius = markerSize / 2.0
         let path = NSBezierPath()
         path.appendArc(withCenter: point, radius: radius, startAngle: 0, endAngle: 360)
-        path.lineWidth = plotLineWidth
+        path.lineWidth = markerLineWidth
         path.stroke()
     }
     
@@ -619,7 +620,7 @@ public class XYPlot: NSView {
         path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y + markerSize / 2))
         path.move(to: CGPoint(x: point.x + markerSize / 2, y: point.y - markerSize / 2))
         path.line(to: CGPoint(x: point.x - markerSize / 2, y: point.y + markerSize / 2))
-        path.lineWidth = plotLineWidth
+        path.lineWidth = markerLineWidth
         path.stroke()
     }
     
@@ -629,7 +630,7 @@ public class XYPlot: NSView {
         path.line(to: CGPoint(x: point.x, y: point.y + markerSize / 2))
         path.move(to: CGPoint(x: point.x - markerSize / 2, y: point.y))
         path.line(to: CGPoint(x: point.x + markerSize / 2, y: point.y))
-        path.lineWidth = plotLineWidth
+        path.lineWidth = markerLineWidth
         path.stroke()
     }
     

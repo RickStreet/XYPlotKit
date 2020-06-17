@@ -314,7 +314,7 @@ public class XYPlot: NSView {
     
     
     
-    public let plotLineWidth: CGFloat = 2.0
+    public var plotLineWidth: CGFloat = 2.0
     
     // MARK: Mouse Properties
     // Dragging Parameters

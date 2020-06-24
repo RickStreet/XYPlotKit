@@ -173,10 +173,7 @@ public class XYPlot: NSView {
             if autoScaleX || autoScaleY {
                 getAutoScale()
             }
-            if data1.count > maxPlotPoints {
                plot1Data = getPlotPoints(dataPoints: data1)
-            }
-            // needsDisplay = true
         }
     }
     
@@ -185,10 +182,7 @@ public class XYPlot: NSView {
             if autoScaleX || autoScaleY {
                 getAutoScale()
             }
-            if data2.count > maxPlotPoints {
                plot2Data = getPlotPoints(dataPoints: data1)
-            }
-            // needsDisplay = true
         }
     }
     

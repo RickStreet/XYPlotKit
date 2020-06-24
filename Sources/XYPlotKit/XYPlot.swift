@@ -529,15 +529,15 @@ public class XYPlot: NSView {
                 }
                 if !found {
                     plotPoints.append(point)
-                    // print("Appended:",plotPoints.count, point)
+                    print("Appended:",plotPoints.count, point)
                 } else {
-                    // print("Rejecting:", point)
+                    print("Rejecting:", point)
                 }
             }
         } else {
             plotPoints = dataPoints
         }
-        print("Points to plot:", plotPoints.count)
+        print("XYPlot: Points to plot:", plotPoints.count)
         return plotPoints
     }
     

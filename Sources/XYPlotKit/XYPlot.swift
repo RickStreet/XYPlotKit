@@ -146,7 +146,7 @@ public class XYPlot: NSView {
 
     
     
-    var plot1Data: [(Double, Double)] = [] {
+    public var plot1Data: [(Double, Double)] = [] {
         didSet {
             if autoScaleX || autoScaleY {
                 getAutoScale()
@@ -155,7 +155,7 @@ public class XYPlot: NSView {
         }
     }
     
-    var plot2Data: [(Double, Double)] = [] {
+    public var plot2Data: [(Double, Double)] = [] {
         didSet {
             if autoScaleX || autoScaleY {
                 getAutoScale()
@@ -164,7 +164,7 @@ public class XYPlot: NSView {
         }
     }
     
-    var plot3Data = [(Double, Double)]() // for outliers
+    public var plot3Data = [(Double, Double)]() // for outliers
     
     
     // Add data compression for ploting.  Raw plot data is in data1, data2, data3,

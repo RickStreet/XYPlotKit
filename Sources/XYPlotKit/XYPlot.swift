@@ -23,15 +23,17 @@ public enum MouseAction {
 
 // @IBDesignable
 public class XYPlot: NSView {
-    // MARK: Properties
     
+    // MARK: Histogram Properties
     
     // Bar Graph Data
     public var binRange = 1.0
     public var numberBins = 0
     public var data: [Double] = []
     public var bins = [Int]()
-    
+
+    // MARK: Histogram Methods
+
     func histogram(numberBins: Int, data: [Double]) {
         self.numberBins = numberBins
         self.data = data
@@ -137,9 +139,14 @@ public class XYPlot: NSView {
         
     }
     
-    
+    // MARK: XYPlot Properties
+
     // Plot Data
-    public var plot1Data: [(Double, Double)] = [] {
+    
+
+    
+    
+    var plot1Data: [(Double, Double)] = [] {
         didSet {
             if autoScaleX || autoScaleY {
                 getAutoScale()
@@ -148,7 +155,7 @@ public class XYPlot: NSView {
         }
     }
     
-    public var plot2Data: [(Double, Double)] = [] {
+    var plot2Data: [(Double, Double)] = [] {
         didSet {
             if autoScaleX || autoScaleY {
                 getAutoScale()
@@ -157,7 +164,42 @@ public class XYPlot: NSView {
         }
     }
     
-    public var plot3Data = [(Double, Double)]() // for outliers
+    var plot3Data = [(Double, Double)]() // for outliers
+    
+    
+    // Add data compression for ploting.  Raw plot data is in data1, data2, data3,
+    public var data1: [(Double, Double)] = [] {
+        didSet {
+            if autoScaleX || autoScaleY {
+                getAutoScale()
+            }
+            if data1.count > maxPlotPoints {
+               plot1Data = getPlotPoints(dataPoints: data1)
+            }
+            // needsDisplay = true
+        }
+    }
+    
+    public var data2: [(Double, Double)] = [] {
+        didSet {
+            if autoScaleX || autoScaleY {
+                getAutoScale()
+            }
+            if data2.count > maxPlotPoints {
+               plot2Data = getPlotPoints(dataPoints: data1)
+            }
+            // needsDisplay = true
+        }
+    }
+    
+    public var data3: [(Double, Double)] = [] {
+        didSet {
+            plot3Data = data3
+        }
+    }
+
+    
+    
     
     // Plot Colors
     public var barColor = lightBlue
@@ -226,6 +268,11 @@ public class XYPlot: NSView {
     public var labelFormatX = "%.0f"
     public var labelFormatY = "%.0f"
     public var labelFormat = "%.0f"
+    
+    // Plot Compression Properties
+    public var maxPlotPoints = 3000
+    public var plotSegments = 100.0
+
     
     // Colors
     let borderColor = NSColor.black
@@ -460,7 +507,41 @@ public class XYPlot: NSView {
         }
     }
     
+    
     // MARK: Plotting Methods
+    
+    func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
+        print("data.getPlotPoints()")
+        // get plot segment sizes
+        let xStep = abs(xMax - xMin) / plotSegments
+        let yStep = abs(yMax - yMin) / plotSegments
+        
+        print("data values.count \(dataPoints.count)")
+        var plotPoints = [(Double, Double)]()
+        
+        // compress if count over maxPlotPoints
+        if dataPoints.count > maxPlotPoints {
+            for point in dataPoints {
+                // print(point)
+                var found = false
+                for plotPoint in plotPoints {
+                    found = abs(plotPoint.0 - point.0) < xStep && abs(plotPoint.1 - point.1) < yStep
+                }
+                if !found {
+                    plotPoints.append(point)
+                    // print("Appended:",plotPoints.count, point)
+                } else {
+                    // print("Rejecting:", point)
+                }
+            }
+        } else {
+            plotPoints = dataPoints
+        }
+        print("Points to plot:", plotPoints.count)
+        return plotPoints
+    }
+    
+
     
     /// Set x-axis properties
     /// - Parameters:

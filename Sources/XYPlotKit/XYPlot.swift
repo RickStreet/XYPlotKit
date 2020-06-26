@@ -182,7 +182,7 @@ public class XYPlot: NSView {
             if autoScaleX || autoScaleY {
                 getAutoScale()
             }
-               plot2Data = getPlotPoints(dataPoints: data1)
+               plot2Data = getPlotPoints(dataPoints: data2)
         }
     }
     

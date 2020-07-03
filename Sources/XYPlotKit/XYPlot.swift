@@ -141,7 +141,7 @@ public class XYPlot: NSView {
     
     // MARK: XYPlot Properties
 
-    func pdfData() -> Data {
+    public func pdfData() -> Data {
         return dataWithPDF(inside: bounds)
     }
 

@@ -141,8 +141,10 @@ public class XYPlot: NSView {
     
     // MARK: XYPlot Properties
 
-    // Plot Data
-    
+    func pdfData() -> Data {
+        return dataWithPDF(inside: bounds)
+    }
+
 
     
     
@@ -503,6 +505,7 @@ public class XYPlot: NSView {
     
     
     // MARK: Plotting Methods
+    
     
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
         print("data.getPlotPoints()")

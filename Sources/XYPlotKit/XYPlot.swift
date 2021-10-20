@@ -10,6 +10,7 @@
 import Cocoa
 import StringKit
 
+
 public protocol UserSelected: AnyObject {
     func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
     func userSelected(point: (x: Double, y: Double)?)

@@ -8,8 +8,9 @@
 //  Revisions:
 
 import Cocoa
+import StringKit
 
-public protocol UserSelected: class {
+public protocol UserSelected: AnyObject {
     func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
     func userSelected(point: (x: Double, y: Double)?)
 }
@@ -200,7 +201,7 @@ public class XYPlot: NSView {
     // Plot Colors
     public var barColor = lightBlue
     public var plot1Color = NSColor.blue
-    public var plot2Color = forestColor
+    public var plot2Color = forestGreen
     public var plot3Color = NSColor.red
     
     // Plot Markers

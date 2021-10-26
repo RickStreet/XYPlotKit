@@ -1108,13 +1108,29 @@ public class XYPlot: NSView {
     }
     
     override init(frame frameRect: NSRect) {
+        /*
         attributeTitle = [ NSAttributedString.Key.foregroundColor: navy,
                            NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
+         */
+        
+        attributeTitle = [.foregroundColor: navy,
+                           .font: fontLargeBoldItalic]
+
+        /*
         attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
                            NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
+        */
+        
+        attributeLabel = [.foregroundColor: navy,
+                          .font: fontLabel]
+        
+        /*
         attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
                          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
+        */
         
+        attributeAxis = [.foregroundColor: black,
+                         .font: fontAxis]
         
         super.init(frame:frameRect)
         
@@ -1123,12 +1139,14 @@ public class XYPlot: NSView {
     
     required init?(coder: NSCoder) {
         // titleFontSize = 25
-        attributeTitle = [ NSAttributedString.Key.foregroundColor: navy,
-                           NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
-        attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
-                           NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
-        attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
-                         NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
+        attributeTitle = [.foregroundColor: navy,
+                           .font: fontLargeBoldItalic]
+        
+        attributeLabel = [.foregroundColor: navy,
+                          .font: fontLabel]
+        
+        attributeAxis = [.foregroundColor: black,
+                         .font: fontAxis]
         
         super.init(coder: coder)
     }

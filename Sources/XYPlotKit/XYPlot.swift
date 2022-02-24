@@ -152,19 +152,21 @@ public class XYPlot: NSView {
     
     public var plot1Data: [(Double, Double)] = [] {
         didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
+            if !plot1Data.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
             }
-            // needsDisplay = true
         }
     }
     
     public var plot2Data: [(Double, Double)] = [] {
         didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
+            if !plot2Data.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
             }
-            // needsDisplay = true
         }
     }
     
@@ -174,19 +176,23 @@ public class XYPlot: NSView {
     // Add data compression for ploting.  Raw plot data is in data1, data2, data3,
     public var data1: [(Double, Double)] = [] {
         didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
+            if !data1.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
+                   plot1Data = getPlotPoints(dataPoints: data1)
             }
-               plot1Data = getPlotPoints(dataPoints: data1)
         }
     }
     
     public var data2: [(Double, Double)] = [] {
         didSet {
-            if autoScaleX || autoScaleY {
-                getAutoScale()
+            if !data2.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
+                   plot2Data = getPlotPoints(dataPoints: data2)
             }
-               plot2Data = getPlotPoints(dataPoints: data2)
         }
     }
     

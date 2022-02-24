@@ -574,6 +574,7 @@ public class XYPlot: NSView {
         plot2Data.removeAll()
         plot3Data.removeAll()
         prepareForReuse()
+        needsDisplay = true
     }
     
     override public func draw(_: CGRect) {
@@ -1106,8 +1107,6 @@ public class XYPlot: NSView {
         return calcAxis(length: xLabelWidth, min: low  , max: high)
     }
     
-    func initialSetup() {
-    }
     
     override init(frame frameRect: NSRect) {
         /*

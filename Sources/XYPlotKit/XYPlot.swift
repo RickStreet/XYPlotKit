@@ -36,7 +36,7 @@ public class XYPlot: NSView {
 
     // MARK: Histogram Methods
 
-    func histogram(numberBins: Int, data: [Double]) {
+    public func histogram(numberBins: Int, data: [Double]) {
         self.numberBins = numberBins
         self.data = data
         let histogram = data.histogram(numberBins: numberBins)
@@ -73,7 +73,7 @@ public class XYPlot: NSView {
         print("binRange \(binRange)")
     }
     
-    func histogram(binRange: Double, data: [Double]) {
+    public func histogram(binRange: Double, data: [Double]) {
         self.binRange = binRange
         self.data = data
         bins = data.histogram(binRange: binRange)
@@ -108,7 +108,7 @@ public class XYPlot: NSView {
          */
     }
     
-    func updateHistogram(binRange: Double) {
+    public func updateHistogram(binRange: Double) {
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
         numberBins = bins.count

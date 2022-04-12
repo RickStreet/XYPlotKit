@@ -137,35 +137,36 @@ public class XYPlot: NSView {
         yLow = yAxis.from
         yHigh = yAxis.to
         yBy = yAxis.by
-        self.needsDisplay = true
-        
-        func suggestedHistogramSpacing(min: Double, max: Double) -> Double {
-            let roundBys = [1000.0, 500.0, 200.0, 100.0, 50.0, 25.0, 20.0, 10.0, 5.0, 4.0, 2.0, 1.0, 0.5, 0.25, 0.2, 0.1, 0.05, 0.025, 0.02, 0.01, 0.001, 0.0001]
-            let maxSegments = 15
-            let minSegments = 5
-            let range = max - min
-            var spacing = 0.0
-            let maxSpacing = range / Double(minSegments)
-            let rawSpacing = range / Double(maxSegments)
-            // var rMin = min
-            // var rMax = max
-            for n in roundBys {
-                Swift.print("\(n)")
-                if n < maxSpacing {
-                    let newMin = roundDown(value: min, by: n)
-                    let newMax = roundUp(value: max, by: n)
-                    if (min - newMin <= rawSpacing) && (newMax - max <= rawSpacing) {
-                        //rMin = newMin
-                        //rMax = newMax
-                        // roundBy = n
-                        spacing = roundUp(value: rawSpacing, by: n)
-                        break
-                    }
+        self.needsDisplay = true        
+    }
+
+    public func suggestedHistogramSpacing(min: Double, max: Double) -> Double {
+        let roundBys = [1000.0, 500.0, 200.0, 100.0, 50.0, 25.0, 20.0, 10.0, 5.0, 4.0, 2.0, 1.0, 0.5, 0.25, 0.2, 0.1, 0.05, 0.025, 0.02, 0.01, 0.001, 0.0001]
+        let maxSegments = 15
+        let minSegments = 5
+        let range = max - min
+        var spacing = 0.0
+        let maxSpacing = range / Double(minSegments)
+        let rawSpacing = range / Double(maxSegments)
+        // var rMin = min
+        // var rMax = max
+        for n in roundBys {
+            Swift.print("\(n)")
+            if n < maxSpacing {
+                let newMin = roundDown(value: min, by: n)
+                let newMax = roundUp(value: max, by: n)
+                if (min - newMin <= rawSpacing) && (newMax - max <= rawSpacing) {
+                    //rMin = newMin
+                    //rMax = newMax
+                    // roundBy = n
+                    spacing = roundUp(value: rawSpacing, by: n)
+                    break
                 }
             }
-            return spacing
         }
+        return spacing
     }
+
     
     // MARK: XYPlot Properties
 

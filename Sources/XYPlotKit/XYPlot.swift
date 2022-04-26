@@ -53,8 +53,8 @@ public class XYPlot: NSView {
         if let max = data.max() {
             xMax = max
         }
-        print("x: min \(xMin)  max \(xMax)")
-        print("y: min \(yMin)  max \(yMax)")
+        // print("x: min \(xMin)  max \(xMax)")
+        // print("y: min \(yMin)  max \(yMax)")
         
         let xAxis = calcAxis(length: xLabelWidth, min: xMin, max: xMax)
         labelFormatX = labelFormat
@@ -69,8 +69,8 @@ public class XYPlot: NSView {
         yHigh = yAxis.to
         yBy = yAxis.by
         
-        print("bins \(bins)")
-        print("binRange \(binRange)")
+        // print("bins \(bins)")
+        // print("binRange \(binRange)")
     }
     
     public func histogram(binRange: Double, data: [Double]) {
@@ -130,14 +130,14 @@ public class XYPlot: NSView {
         xLow = xAxis.from - binRange / 2
         xHigh = xAxis.to
         xBy = xAxis.by
-        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
         
         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
         labelFormatY = labelFormat
         yLow = yAxis.from
         yHigh = yAxis.to
         yBy = yAxis.by
-        self.needsDisplay = true        
+        self.needsDisplay = true
     }
 
     public func suggestedHistogramSpacing(min: Double, max: Double) -> Double {
@@ -151,7 +151,7 @@ public class XYPlot: NSView {
         // var rMin = min
         // var rMax = max
         for n in roundBys {
-            Swift.print("\(n)")
+            // Swift.print("\(n)")
             if n < maxSpacing {
                 let newMin = roundDown(value: min, by: n)
                 let newMax = roundUp(value: max, by: n)
@@ -256,9 +256,9 @@ public class XYPlot: NSView {
     public var plot2DrawMarker: Bool = false {
         didSet {
             if plot2DrawLine {
-                print("Plot 2: Draw Line")
+                // print("Plot 2: Draw Line")
             } else {
-                print("Plot 2: No Line!")
+                // print("Plot 2: No Line!")
             }
         }
     }
@@ -543,12 +543,12 @@ public class XYPlot: NSView {
     
     
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
-        print("data.getPlotPoints()")
+        // print("data.getPlotPoints()")
         // get plot segment sizes
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments
         
-        print("data values.count \(dataPoints.count)")
+        // print("data values.count \(dataPoints.count)")
         var plotPoints = [(Double, Double)]()
         
         // compress if count over maxPlotPoints
@@ -561,15 +561,15 @@ public class XYPlot: NSView {
                 }
                 if !found {
                     plotPoints.append(point)
-                    print("Appended:",plotPoints.count, point)
+                    // print("Appended:",plotPoints.count, point)
                 } else {
-                    print("Rejecting:", point)
+                    // print("Rejecting:", point)
                 }
             }
         } else {
             plotPoints = dataPoints
         }
-        print("XYPlot: Points to plot:", plotPoints.count)
+        // print("XYPlot: Points to plot:", plotPoints.count)
         return plotPoints
     }
     
@@ -989,8 +989,8 @@ public class XYPlot: NSView {
     /// - to: end of axis, Double
     /// - by: distance between ticks, Double
     private func calcAxis(length: CGFloat, min: Double, max: Double, minTicks: Int, maxTicks: Int) -> (from: Double, to: Double, by: Double) {
-        print()
-        print("calcAxis()")
+        // print()
+        // print("calcAxis()")
         // let maxTicks = 12
         // let minTicks = 5
         
@@ -1047,7 +1047,7 @@ public class XYPlot: NSView {
         let from = rMin
         let to = rMax
         let by = spacing
-        print("from: \(from), to: \(to), by: \(by)")
+        // print("from: \(from), to: \(to), by: \(by)")
         return (from: from, to: to, by: by)
     }
     

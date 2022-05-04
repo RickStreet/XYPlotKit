@@ -11,6 +11,7 @@ import Cocoa
 import StringKit
 
 
+/// Allows selection of points by dragging a rectable or selecting  a point
 public protocol UserSelected: AnyObject {
     func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
     func userSelected(point: (x: Double, y: Double)?)
@@ -35,7 +36,11 @@ public class XYPlot: NSView {
     public var bins = [Int]()
 
     // MARK: Histogram Methods
-
+    
+    /// Draw Histogram with set humber of bins for data
+    /// - Parameters:
+    ///   - numberBins: Number of bins for histogram
+    ///   - data: data for histogram
     public func histogram(numberBins: Int, data: [Double]) {
         self.numberBins = numberBins
         self.data = data
@@ -73,6 +78,10 @@ public class XYPlot: NSView {
         // print("binRange \(binRange)")
     }
     
+    /// Histogram with bin size from data
+    /// - Parameters:
+    ///   - binRange: bin width
+    ///   - data: data for histogram
     public func histogram(binRange: Double, data: [Double]) {
         self.binRange = binRange
         self.data = data
@@ -108,6 +117,8 @@ public class XYPlot: NSView {
          */
     }
     
+    /// Redraw histogram with new range using last data
+    /// - Parameter binRange: New bin width
     public func updateHistogram(binRange: Double) {
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
@@ -139,7 +150,12 @@ public class XYPlot: NSView {
         yBy = yAxis.by
         self.needsDisplay = true
     }
-
+    
+    /// Suggest asthetic bin width
+    /// - Parameters:
+    ///   - min: Min value in data
+    ///   - max: Max value ijn data
+    /// - Returns: suggested bin width
     public func suggestedHistogramSpacing(min: Double, max: Double) -> Double {
         let roundBys = [1000.0, 500.0, 200.0, 100.0, 50.0, 25.0, 20.0, 10.0, 5.0, 4.0, 2.0, 1.0, 0.5, 0.25, 0.2, 0.1, 0.05, 0.025, 0.02, 0.01, 0.001, 0.0001]
         let maxSegments = 15
@@ -169,7 +185,9 @@ public class XYPlot: NSView {
 
     
     // MARK: XYPlot Properties
-
+    
+    /// Generates pdf data for plot
+    /// - Returns: pdf data
     public func pdfData() -> Data {
         return dataWithPDF(inside: bounds)
     }
@@ -177,6 +195,7 @@ public class XYPlot: NSView {
 
     
     
+    /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
     public var plot1Data: [(Double, Double)] = [] {
         didSet {
             if !plot1Data.isEmpty {
@@ -187,6 +206,7 @@ public class XYPlot: NSView {
         }
     }
     
+    /// Set data for plot 2 trace.  If data set is large, use data2 to copress it for quicker plot
     public var plot2Data: [(Double, Double)] = [] {
         didSet {
             if !plot2Data.isEmpty {
@@ -197,10 +217,12 @@ public class XYPlot: NSView {
         }
     }
     
+    /// Third plot trace used for outliers for exampole
     public var plot3Data = [(Double, Double)]() // for outliers
     
     
     // Add data compression for ploting.  Raw plot data is in data1, data2, data3,
+    /// Raw data for plot trace 1, will be compressed for faster ploting
     public var data1: [(Double, Double)] = [] {
         didSet {
             if !data1.isEmpty {
@@ -212,6 +234,7 @@ public class XYPlot: NSView {
         }
     }
     
+    /// Raw data for plot trace 2, will be compressed for faster ploting
     public var data2: [(Double, Double)] = [] {
         didSet {
             if !data2.isEmpty {
@@ -223,6 +246,7 @@ public class XYPlot: NSView {
         }
     }
     
+    /// Raw data for plot trace 3, will not be compressed
     public var data3: [(Double, Double)] = [] {
         didSet {
             plot3Data = data3
@@ -339,6 +363,7 @@ public class XYPlot: NSView {
     // var titleFontSize: Int
     
     @IBInspectable
+    /// Title for Plot.  Use customTitle for attributed string.
     public var title: String {
         get {
             return String(describing: labelTitle)
@@ -350,6 +375,7 @@ public class XYPlot: NSView {
     }
     
     @IBInspectable
+    /// Title for x-axis.  Use customXAxisTitle for attributed string.
     public var xAxisTitle: String {
         get {
             return String(describing: labelXAxis)
@@ -360,6 +386,7 @@ public class XYPlot: NSView {
     }
     
     @IBInspectable
+    /// Title for y-axis, String.  Use customYAxisTitle for attributed string.
     public var yAxisTitle: String {
         get {
             return String(describing: labelYAxis)
@@ -368,15 +395,26 @@ public class XYPlot: NSView {
             labelYAxis = NSMutableAttributedString(string: newValue)
         }
     }
+    /// Custom plot title, allows user to set attributes
     public var customTitle: NSMutableAttributedString?
+    
+    /// Custom x-asis title, allows user to set attributes
     public var customXAxisTitle: NSMutableAttributedString?
+    
+    /// Custom y-axis title, allows user to set attributes
     public var customYAxisTitle: NSMutableAttributedString?
     
     var labelTitle: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelXAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
+    
+    /// Attributes fo title
     public var attributeTitle: [NSAttributedString.Key: Any]
+    
+    /// Attributes for label
     public var attributeLabel: [NSAttributedString.Key: Any]
+    
+    /// Attributes for Axis
     public var attributeAxis: [NSAttributedString.Key: Any]
     // let attributeTitle: [NSAttributedStringKey: Any] = [ NSAttributedStringKey.foregroundColor: navy,
     //NSAttributedStringKey.font: NSFont(name: "HelveticaNeue-BoldItalic", size: titleFontSize)!]

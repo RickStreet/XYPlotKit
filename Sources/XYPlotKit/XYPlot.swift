@@ -628,9 +628,9 @@ public class XYPlot: NSView {
     }
     
     override public func draw(_: CGRect) {
-        print("draw()...")
+        Swift.print("draw() starting...")
         
-        print("bin couint \(bins.count)")
+        Swift.print("bin couint \(bins.count)")
 
         
         let paraRight = NSMutableParagraphStyle()
@@ -640,20 +640,20 @@ public class XYPlot: NSView {
         paraCenter.alignment = .center
         
         // Draw Labels
-        print("drawing labels..")
+        Swift.print("drawing labels..")
         drawTitles()
         
         // Draw graph border
-        print("drawing border...")
+        Swift.print("drawing border...")
         drawPlotBorder()
-        print("drawing tics")
+        Swift.print("drawing tics")
         drawTicks()
         if bins.count > 2 {
             plotBars(color: barColor, marker: plot1Marker)
         }
         
         if plot1Data.count > 0 {
-            print("Drawing PlotLine 1")
+            Swift.print("Drawing PlotLine 1")
             if plot1DrawLine {
                 plotLine(plotData: plot1Data, color: plot1Color, checkForSlices: plot1Line1Slices)
             }
@@ -665,7 +665,7 @@ public class XYPlot: NSView {
         }
         
         if plot2Data.count > 0 {
-            print("Drawing PlotLine 2")
+            Swift.print("Drawing PlotLine 2")
             if plot2DrawLine {
                 plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
@@ -678,7 +678,7 @@ public class XYPlot: NSView {
         
         // Plot Outliers
         if plot3Data.count > 0 {
-            print("Drawing PlotLine 3")
+            Swift.print("Drawing PlotLine 3")
             if plot3DrawLine {
                 plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }
@@ -689,7 +689,7 @@ public class XYPlot: NSView {
                 // }
             }
         }
-        print("finished drawing!")
+        Swift.print("finished drawing!")
     }
     
     func plotLine(plotData: [(Double, Double)], color: NSColor, checkForSlices: Bool) {

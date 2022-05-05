@@ -87,6 +87,7 @@ public class XYPlot: NSView {
         self.binRange = binRange
         self.data = data
         bins = data.histogram(binRange: binRange)
+        print("no bins \(bins.count)")
         // numberBins = bins.count
         updateHistogram(binRange: binRange)
         print("range histogram complete")
@@ -98,6 +99,7 @@ public class XYPlot: NSView {
         print("updating histogram...")
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
+        print("number bins \(bins.count)")
         // numberBins = bins.count
         print("number bins \(bins.count)")
         if let min = data.min() {
@@ -106,7 +108,6 @@ public class XYPlot: NSView {
         if let max = data.max() {
             xMax = max
         }
-        
         
         yMin = 0.0
         if let max = bins.max() {
@@ -630,7 +631,7 @@ public class XYPlot: NSView {
     override public func draw(_: CGRect) {
         Swift.print("draw() starting...")
         
-        Swift.print("bin couint \(bins.count)")
+        Swift.print("bin count \(bins.count)")
 
         
         let paraRight = NSMutableParagraphStyle()

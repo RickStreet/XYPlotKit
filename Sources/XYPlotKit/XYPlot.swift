@@ -650,6 +650,7 @@ public class XYPlot: NSView {
         Swift.print("drawing tics")
         drawTicks()
         if bins.count > 2 {
+            Swift.print("Drawing Histogram from Draw()")
             plotBars(color: barColor, marker: plot1Marker)
         }
         
@@ -726,10 +727,10 @@ public class XYPlot: NSView {
     }
     
     func plotBars(color: NSColor, marker: (CGPoint) -> Void) {
-        print("plotBars()...")
+        Swift.print("plotBars()...")
         color.setStroke()
         for (i, count) in bins.enumerated() {
-            print("drawing bin \(i)")
+            Swift.print("drawing bin \(i)")
             let borderPath = NSBezierPath()
             // color.setStroke()
             borderPath.move(to: CGPoint(x: xPointCoordinate(Double(i) * binRange), y: yPointCoordinate(0.0)))
@@ -747,7 +748,7 @@ public class XYPlot: NSView {
             // borderPath.stroke()
             
         }
-        print("finished plotBars()")
+        Swift.print("finished plotBars()")
     }
     
     public func markerCircle(point: CGPoint) {

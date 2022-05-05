@@ -646,6 +646,7 @@ public class XYPlot: NSView {
         // Draw graph border
         Swift.print("drawing border...")
         drawPlotBorder()
+        
         Swift.print("drawing tics")
         drawTicks()
         if bins.count > 2 {
@@ -795,13 +796,18 @@ public class XYPlot: NSView {
     }
     
     func drawTicks() {
+        Swift.print("drawTics()...")
         var number: Double = xLow
+        Swift.print("xLow \(number)")
+        Swift.print("draw x tics")
         while number <= xHigh {
             drawXTick(value: number)
             number += xBy
         }
         
         number = yLow
+        Swift.print("yLow \(number)")
+        Swift.print("draw y tics")
         while number <= yHigh {
             drawYTick(value: number)
             number += yBy
@@ -809,6 +815,8 @@ public class XYPlot: NSView {
     }
     
     func drawXTick(value: Double) {
+        Swift.print("")
+        Swift.print("drawXTick()...")
         let xFraction = (value - xLow) / (xHigh - xLow)
         let x = xFraction * Double(width - leftMargin - rightMargin)
         let tick = NSBezierPath()
@@ -826,6 +834,8 @@ public class XYPlot: NSView {
     }
     
     func drawYTick(value: Double) {
+        Swift.print("")
+        Swift.print("drawYTick()...")
         let yFraction = (value - yLow) / (yHigh - yLow)
         let y = yFraction * Double(height - topMargin - bottomMargin)
         let tick = NSBezierPath()

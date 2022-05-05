@@ -53,6 +53,7 @@ public extension Array where Element == Double {
                 }
             }
             print("no bins \(bins.count)")
+            print(bins)
             print("array histogram comlete")
             return bins
         }

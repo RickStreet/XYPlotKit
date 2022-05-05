@@ -88,6 +88,7 @@ public class XYPlot: NSView {
         self.data = data
         bins = data.histogram(binRange: binRange)
         print("no bins \(bins.count)")
+        print(bins)
         // numberBins = bins.count
         updateHistogram(binRange: binRange)
         print("range histogram complete")
@@ -100,6 +101,7 @@ public class XYPlot: NSView {
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
         print("number bins \(bins.count)")
+        print(bins)
         // numberBins = bins.count
         print("number bins \(bins.count)")
         if let min = data.min() {

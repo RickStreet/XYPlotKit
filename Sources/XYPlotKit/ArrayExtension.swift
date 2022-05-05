@@ -34,12 +34,14 @@ public extension Array where Element == Double {
         print("array histogram range...")
         // var bins = [Int](repeating: 0, count: numberBins)
         if let max = self.max(), let min = self.min() {
-            
+            print("min \(min)  max \(max)")
             let numberBins = Int(((max - min) / binRange).rounded(.up))
             var bins = [Int](repeating: 0, count: numberBins)
             
             let binRange = (max - min) / Double(numberBins)
+            print("filling bins...")
             for value in self {
+                print("value \(value)")
                 if value == Double(numberBins) * binRange {
                     print("= \(value) in bin \(numberBins - 1)")
                     bins[numberBins - 1] += 1

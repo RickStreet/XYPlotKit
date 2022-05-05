@@ -124,6 +124,7 @@ public class XYPlot: NSView {
         yLow = yAxis.from
         yHigh = yAxis.to
         yBy = yAxis.by
+        print("self.needsDisplay...")
         self.needsDisplay = true
         print("updating histogram complete")
     }
@@ -626,6 +627,7 @@ public class XYPlot: NSView {
     }
     
     override public func draw(_: CGRect) {
+        print("draw()...")
         
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right
@@ -679,6 +681,7 @@ public class XYPlot: NSView {
                 // }
             }
         }
+        print("finished drawing!")
     }
     
     func plotLine(plotData: [(Double, Double)], color: NSColor, checkForSlices: Bool) {
@@ -714,8 +717,10 @@ public class XYPlot: NSView {
     }
     
     func plotBars(color: NSColor, marker: (CGPoint) -> Void) {
+        print("plotBars()...")
         color.setStroke()
         for (i, count) in bins.enumerated() {
+            print("drawing bin \(i)")
             let borderPath = NSBezierPath()
             // color.setStroke()
             borderPath.move(to: CGPoint(x: xPointCoordinate(Double(i) * binRange), y: yPointCoordinate(0.0)))
@@ -733,6 +738,7 @@ public class XYPlot: NSView {
             // borderPath.stroke()
             
         }
+        print("finished plotBars()")
     }
     
     public func markerCircle(point: CGPoint) {

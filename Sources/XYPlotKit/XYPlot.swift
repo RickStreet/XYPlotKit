@@ -31,7 +31,7 @@ public class XYPlot: NSView {
     
     // Bar Graph Data
     public var binRange = 1.0
-    public var numberBins = 0
+    // public var numberBins = 0
     public var data: [Double] = []
     public var bins = [Int]()
 
@@ -42,9 +42,9 @@ public class XYPlot: NSView {
     ///   - numberBins: Number of bins for histogram
     ///   - data: data for histogram
     public func histogram(numberBins: Int, data: [Double]) {
-        self.numberBins = numberBins
+        // self.numberBins = numberBins
         self.data = data
-        let histogram = data.histogram(numberBins: numberBins)
+        let histogram = data.histogram(numberBins: bins.count)
         bins = histogram.bins
         binRange = histogram.binRange
         yMin = 0.0
@@ -87,7 +87,7 @@ public class XYPlot: NSView {
         self.binRange = binRange
         self.data = data
         bins = data.histogram(binRange: binRange)
-        numberBins = bins.count
+        // numberBins = bins.count
         updateHistogram(binRange: binRange)
         print("range histogram complete")
     }
@@ -98,7 +98,8 @@ public class XYPlot: NSView {
         print("updating histogram...")
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
-        numberBins = bins.count
+        // numberBins = bins.count
+        print("number bins \(bins.count)")
         if let min = data.min() {
             xMin = min
         }
@@ -641,7 +642,7 @@ public class XYPlot: NSView {
         // Draw graph border
         drawPlotBorder()
         drawTicks()
-        
+        print("bin couint \(bins.count)")
         if bins.count > 2 {
             plotBars(color: barColor, marker: plot1Marker)
         }

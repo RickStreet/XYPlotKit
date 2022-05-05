@@ -630,6 +630,9 @@ public class XYPlot: NSView {
     override public func draw(_: CGRect) {
         print("draw()...")
         
+        print("bin couint \(bins.count)")
+
+        
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right
         
@@ -637,18 +640,20 @@ public class XYPlot: NSView {
         paraCenter.alignment = .center
         
         // Draw Labels
+        print("drawing labels..")
         drawTitles()
         
         // Draw graph border
+        print("drawing border...")
         drawPlotBorder()
+        print("drawing tics")
         drawTicks()
-        print("bin couint \(bins.count)")
         if bins.count > 2 {
             plotBars(color: barColor, marker: plot1Marker)
         }
         
         if plot1Data.count > 0 {
-            // print("Drawing PlotLine 1")
+            print("Drawing PlotLine 1")
             if plot1DrawLine {
                 plotLine(plotData: plot1Data, color: plot1Color, checkForSlices: plot1Line1Slices)
             }
@@ -660,6 +665,7 @@ public class XYPlot: NSView {
         }
         
         if plot2Data.count > 0 {
+            print("Drawing PlotLine 2")
             if plot2DrawLine {
                 plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
@@ -672,6 +678,7 @@ public class XYPlot: NSView {
         
         // Plot Outliers
         if plot3Data.count > 0 {
+            print("Drawing PlotLine 3")
             if plot3DrawLine {
                 plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }

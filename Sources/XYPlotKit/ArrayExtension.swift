@@ -14,7 +14,7 @@ public extension Array where Element == Double {
             let binRange = (max - min) / Double(numberBins)
             for value in self {
                 if value == Double(numberBins) * binRange {
-                    // print("= \(value) in bin \(noBins - 1)")
+                    print("= \(value) in bin \(numberBins - 1)")
                     bins[numberBins - 1] += 1
                 } else {
                     for i in 0..<numberBins {
@@ -31,7 +31,7 @@ public extension Array where Element == Double {
     }
     
     func histogram(binRange: Double) -> [Int] {
-        
+        print("array histogram range...")
         // var bins = [Int](repeating: 0, count: numberBins)
         if let max = self.max(), let min = self.min() {
             
@@ -41,19 +41,21 @@ public extension Array where Element == Double {
             let binRange = (max - min) / Double(numberBins)
             for value in self {
                 if value == Double(numberBins) * binRange {
-                    // print("= \(value) in bin \(noBins - 1)")
+                    print("= \(value) in bin \(numberBins - 1)")
                     bins[numberBins - 1] += 1
                 } else {
                     for i in 0..<numberBins {
                         if value >= Double(i) * binRange && value < Double(i + 1) * binRange {
-                            // print("r \(value) in bin \(i)")
+                            print("r \(value) in bin \(i)")
                             bins[i] += 1
                         }
                     }
                 }
             }
+            print("array histogram comlete")
             return bins
         }
+        print("array histogram comlete, empty array")
         return [Int]()
     }
 }

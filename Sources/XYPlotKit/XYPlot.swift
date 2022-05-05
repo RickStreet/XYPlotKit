@@ -83,43 +83,19 @@ public class XYPlot: NSView {
     ///   - binRange: bin width
     ///   - data: data for histogram
     public func histogram(binRange: Double, data: [Double]) {
+        print("range histogram...")
         self.binRange = binRange
         self.data = data
         bins = data.histogram(binRange: binRange)
         numberBins = bins.count
         updateHistogram(binRange: binRange)
-        /*
-         if let min = data.min() {
-         xMin = min
-         }
-         if let max = data.max() {
-         xMax = max
-         }
-         
-         
-         yMin = 0.0
-         if let max = bins.max() {
-         yMax = Double(max)
-         }
-         
-         let xAxis = calcAxis(length: 20.0, min: xMin, max: xMax, minTicks: 5, maxTicks: 20)
-         labelFormatX = labelFormat
-         xLow = xAxis.from
-         xHigh = xAxis.to
-         xBy = xAxis.by
-         print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
-         
-         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
-         labelFormatY = labelFormat
-         yLow = yAxis.from
-         yHigh = yAxis.to
-         yBy = yAxis.by
-         */
+        print("range histogram complete")
     }
     
     /// Redraw histogram with new range using last data
     /// - Parameter binRange: New bin width
     public func updateHistogram(binRange: Double) {
+        print("updating histogram...")
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
         numberBins = bins.count
@@ -141,7 +117,7 @@ public class XYPlot: NSView {
         xLow = xAxis.from - binRange / 2
         xHigh = xAxis.to
         xBy = xAxis.by
-        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
         
         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
         labelFormatY = labelFormat
@@ -149,6 +125,7 @@ public class XYPlot: NSView {
         yHigh = yAxis.to
         yBy = yAxis.by
         self.needsDisplay = true
+        print("updating histogram complete")
     }
     
     /// Suggest asthetic bin width

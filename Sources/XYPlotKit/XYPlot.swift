@@ -113,7 +113,9 @@ public class XYPlot: NSView {
         if let max = bins.max() {
             yMax = Double(max)
         }
-        
+        print("x: \(xMin) to \(xMax)")
+        print("y: \(yMin) to \(yMax)")
+
         let xAxis = calcAxis(length: 20.0, min: xMin, max: xMax, minTicks: 5, maxTicks: 20)
         labelFormatX = labelFormat
         xLow = xAxis.from - binRange / 2
@@ -126,6 +128,9 @@ public class XYPlot: NSView {
         yLow = yAxis.from
         yHigh = yAxis.to
         yBy = yAxis.by
+        print("x: \(xMin) to \(xMax)")
+        print("y: \(yMin) to \(yMax)")
+
         print("self.needsDisplay...")
         self.needsDisplay = true
         print("updating histogram complete")

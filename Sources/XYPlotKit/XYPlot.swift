@@ -738,7 +738,12 @@ public class XYPlot: NSView {
         Swift.print("plotBars()...")
         color.setStroke()
         for (i, count) in bins.enumerated() {
+            Swift.print()
             Swift.print("drawing bin \(i)")
+            Swift.print("x: \(xMin + xPointCoordinate(Double(i) * binRange)) to y: \(0.0)")
+            Swift.print("x: \(xMin + xPointCoordinate(Double(i) * binRange)) to y: \(yPointCoordinate(Double(count)))")
+            Swift.print("x: \(xMin + xPointCoordinate(Double(i + 1) * binRange)) to y: \(yPointCoordinate(Double(count)))")
+            Swift.print("x: \(xMin + xPointCoordinate(Double(i + 1) * binRange)) to y: \(0.0)")
             let borderPath = NSBezierPath()
             // color.setStroke()
             borderPath.move(to: CGPoint(x: xMin + xPointCoordinate(Double(i) * binRange), y: yPointCoordinate(0.0)))

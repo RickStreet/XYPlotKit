@@ -13,12 +13,12 @@ public extension Array where Element == Double {
         if let max = self.max(), let min = self.min() {
             let binRange = (max - min) / Double(numberBins)
             for value in self {
-                if value == Double(numberBins) * binRange {
+                if value == min + Double(numberBins) * binRange {
                     print("= \(value) in bin \(numberBins - 1)")
                     bins[numberBins - 1] += 1
                 } else {
                     for i in 0..<numberBins {
-                        if value >= Double(i) * binRange && value < Double(i + 1) * binRange {
+                        if value >= min + Double(i) * binRange && value < min + Double(i + 1) * binRange {
                             // print("r \(value) in bin \(i)")
                             bins[i] += 1
                         }
@@ -29,7 +29,7 @@ public extension Array where Element == Double {
         }
         return (bins: bins, binRange: 0.0)
     }
-    
+
     func histogram(binRange: Double) -> [Int] {
         print("array histogram range...")
         // var bins = [Int](repeating: 0, count: numberBins)
@@ -41,13 +41,15 @@ public extension Array where Element == Double {
             let binRange = (max - min) / Double(numberBins)
             print("filling bins...")
             for value in self {
+                print()
                 print("value \(value)")
-                if value == Double(numberBins) * binRange {
+                if value == min + Double(numberBins) * binRange {
                     print("= \(value) in bin \(numberBins - 1)")
                     bins[numberBins - 1] += 1
                 } else {
                     for i in 0..<numberBins {
-                        if value >= Double(i) * binRange && value < Double(i + 1) * binRange {
+                        print("from \(min + Double(i) * binRange) to \(min + Double(i + 1) * binRange)")
+                        if value >= min + Double(i) * binRange && value < min + Double(i + 1) * binRange {
                             print("r \(value) in bin \(i)")
                             bins[i] += 1
                         }

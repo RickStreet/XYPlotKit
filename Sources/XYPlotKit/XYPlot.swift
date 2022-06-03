@@ -61,7 +61,7 @@ public class XYPlot: NSView {
         // print("x: min \(xMin)  max \(xMax)")
         // print("y: min \(yMin)  max \(yMax)")
         
-        let xAxis = calcAxis(length: xLabelWidth, min: xMin, max: xMax)
+        let xAxis = calcAxis(length: xLabelWidth, min: xMin - binRange, max: xMax + binRange)
         labelFormatX = labelFormat
         xLow = xAxis.from
         xHigh = xAxis.to
@@ -312,8 +312,8 @@ public class XYPlot: NSView {
     public var labelFormat = "%.0f"
     
     // Plot Compression Properties
-    public var maxPlotPoints = 3000
-    public var plotSegments = 100.0
+    public var maxPlotPoints = 3000 // max points to plot without compression
+    public var plotSegments = 100.0 // used to compress points for plotting, (axis length / plotSegments for compression)
 
     
     // Colors
@@ -567,6 +567,9 @@ public class XYPlot: NSView {
     // MARK: Plotting Methods
     
     
+    /// Compress Plot Data for faster drawing (remove points on top of each other)
+    /// - Parameter dataPoints: Raw data points, [(Double, Double)]
+    /// - Returns: compressed points to plot, , [(Double, Double)]
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
         // print("data.getPlotPoints()")
         // get plot segment sizes

@@ -118,7 +118,7 @@ public class XYPlot: NSView {
         print("x: \(xMin) to \(xMax)")
         print("y: \(yMin) to \(yMax)")
 
-        let xAxis = calcAxis(length: 20.0, min: xMin, max: xMax, minTicks: 5, maxTicks: 20)
+        let xAxis = calcAxis(length: 20.0, min: xMin - binRange, max: xMax + binRange, minTicks: 5, maxTicks: 20)
         labelFormatX = labelFormat
         xLow = xAxis.from - binRange / 2
         xHigh = xAxis.to

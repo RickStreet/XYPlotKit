@@ -66,7 +66,7 @@ public class XYPlot: NSView {
         xLow = xAxis.from
         xHigh = xAxis.to
         xBy = xAxis.by
-        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
         
         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
         labelFormatY = labelFormat
@@ -83,27 +83,27 @@ public class XYPlot: NSView {
     ///   - binRange: bin width
     ///   - data: data for histogram
     public func histogram(binRange: Double, data: [Double]) {
-        print("range histogram...")
+        // print("range histogram...")
         self.binRange = binRange
         self.data = data
         bins = data.histogram(binRange: binRange)
-        print("no bins \(bins.count)")
-        print(bins)
+        // print("no bins \(bins.count)")
+        // print(bins)
         // numberBins = bins.count
         updateHistogram(binRange: binRange)
-        print("range histogram complete")
+        // print("range histogram complete")
     }
     
     /// Redraw histogram with new range using last data
     /// - Parameter binRange: New bin width
     public func updateHistogram(binRange: Double) {
-        print("updating histogram...")
+        // print("updating histogram...")
         self.binRange = binRange
         bins = data.histogram(binRange: binRange)
-        print("number bins \(bins.count)")
-        print(bins)
+        // print("number bins \(bins.count)")
+        // print(bins)
         // numberBins = bins.count
-        print("number bins \(bins.count)")
+        // print("number bins \(bins.count)")
         if let min = data.min() {
             xMin = min
         }
@@ -115,27 +115,27 @@ public class XYPlot: NSView {
         if let max = bins.max() {
             yMax = Double(max)
         }
-        print("x: \(xMin) to \(xMax)")
-        print("y: \(yMin) to \(yMax)")
+        // print("x: \(xMin) to \(xMax)")
+        // print("y: \(yMin) to \(yMax)")
 
         let xAxis = calcAxis(length: 20.0, min: xMin - binRange, max: xMax + binRange, minTicks: 5, maxTicks: 20)
         labelFormatX = labelFormat
         xLow = xAxis.from - binRange / 2
         xHigh = xAxis.to
         xBy = xAxis.by
-        print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
+        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
         
         let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
         labelFormatY = labelFormat
         yLow = yAxis.from
         yHigh = yAxis.to
         yBy = yAxis.by
-        print("x: \(xMin) to \(xMax)")
-        print("y: \(yMin) to \(yMax)")
+        // print("x: \(xMin) to \(xMax)")
+        // print("y: \(yMin) to \(yMax)")
 
-        print("self.needsDisplay...")
+        // print("self.needsDisplay...")
         self.needsDisplay = true
-        print("updating histogram complete")
+        // print("updating histogram complete")
     }
     
     /// Suggest asthetic bin width
@@ -639,9 +639,9 @@ public class XYPlot: NSView {
     }
     
     override public func draw(_: CGRect) {
-        Swift.print("draw() starting...")
+        // Swift.print("draw() starting...")
         
-        Swift.print("bin count \(bins.count)")
+        // Swift.print("bin count \(bins.count)")
 
         
         let paraRight = NSMutableParagraphStyle()
@@ -651,22 +651,22 @@ public class XYPlot: NSView {
         paraCenter.alignment = .center
         
         // Draw Labels
-        Swift.print("drawing labels..")
+        // Swift.print("drawing labels..")
         drawTitles()
         
         // Draw graph border
-        Swift.print("drawing border...")
+        // Swift.print("drawing border...")
         drawPlotBorder()
         
-        Swift.print("drawing tics")
+        // Swift.print("drawing tics")
         drawTicks()
         if bins.count > 2 {
-            Swift.print("Drawing Histogram from Draw()")
+            // Swift.print("Drawing Histogram from Draw()")
             plotBars(color: barColor, marker: plot1Marker)
         }
         
         if plot1Data.count > 0 {
-            Swift.print("Drawing PlotLine 1")
+            // Swift.print("Drawing PlotLine 1")
             if plot1DrawLine {
                 plotLine(plotData: plot1Data, color: plot1Color, checkForSlices: plot1Line1Slices)
             }
@@ -678,7 +678,7 @@ public class XYPlot: NSView {
         }
         
         if plot2Data.count > 0 {
-            Swift.print("Drawing PlotLine 2")
+            // Swift.print("Drawing PlotLine 2")
             if plot2DrawLine {
                 plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
@@ -691,7 +691,7 @@ public class XYPlot: NSView {
         
         // Plot Outliers
         if plot3Data.count > 0 {
-            Swift.print("Drawing PlotLine 3")
+            // Swift.print("Drawing PlotLine 3")
             if plot3DrawLine {
                 plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }
@@ -702,7 +702,7 @@ public class XYPlot: NSView {
                 // }
             }
         }
-        Swift.print("finished drawing!")
+        // Swift.print("finished drawing!")
     }
     
     func plotLine(plotData: [(Double, Double)], color: NSColor, checkForSlices: Bool) {
@@ -738,16 +738,16 @@ public class XYPlot: NSView {
     }
     
     func plotBars(color: NSColor, marker: (CGPoint) -> Void) {
-        Swift.print("plotBars()...")
+        // Swift.print("plotBars()...")
         color.setStroke()
         for (i, count) in bins.enumerated() {
-            Swift.print()
-            Swift.print("drawing bin \(i)")
-            Swift.print("xMin \(xMin)")
-            Swift.print("x: \(xMin + Double(i) * binRange) to y: \(0.0)")
-            Swift.print("x: \(xMin + Double(i) * binRange) to y: \(Double(count))")
-            Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(Double(count))")
-            Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(0.0)")
+            // Swift.print()
+            // Swift.print("drawing bin \(i)")
+            // Swift.print("xMin \(xMin)")
+            // Swift.print("x: \(xMin + Double(i) * binRange) to y: \(0.0)")
+            // Swift.print("x: \(xMin + Double(i) * binRange) to y: \(Double(count))")
+            // Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(Double(count))")
+            // Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(0.0)")
             let borderPath = NSBezierPath()
             // color.setStroke()
             borderPath.move(to: CGPoint(x: xPointCoordinate(xMin + Double(i) * binRange), y: yPointCoordinate(0.0)))
@@ -765,7 +765,7 @@ public class XYPlot: NSView {
             // borderPath.stroke()
             
         }
-        Swift.print("finished plotBars()")
+        // Swift.print("finished plotBars()")
     }
     
     public func markerCircle(point: CGPoint) {
@@ -814,18 +814,18 @@ public class XYPlot: NSView {
     }
     
     func drawTicks() {
-        Swift.print("drawTics()...")
+        // Swift.print("drawTics()...")
         var number: Double = xLow
-        Swift.print("xLow \(number)")
-        Swift.print("draw x tics")
+        // Swift.print("xLow \(number)")
+        // Swift.print("draw x tics")
         while number <= xHigh {
             drawXTick(value: number)
             number += xBy
         }
         
         number = yLow
-        Swift.print("yLow \(number)")
-        Swift.print("draw y tics")
+        // Swift.print("yLow \(number)")
+        // Swift.print("draw y tics")
         while number <= yHigh {
             drawYTick(value: number)
             number += yBy
@@ -833,8 +833,8 @@ public class XYPlot: NSView {
     }
     
     func drawXTick(value: Double) {
-        Swift.print("")
-        Swift.print("drawXTick()...")
+        // Swift.print("")
+        // Swift.print("drawXTick()...")
         let xFraction = (value - xLow) / (xHigh - xLow)
         let x = xFraction * Double(width - leftMargin - rightMargin)
         let tick = NSBezierPath()
@@ -852,8 +852,8 @@ public class XYPlot: NSView {
     }
     
     func drawYTick(value: Double) {
-        Swift.print("")
-        Swift.print("drawYTick()...")
+        // Swift.print("")
+        // Swift.print("drawYTick()...")
         let yFraction = (value - yLow) / (yHigh - yLow)
         let y = yFraction * Double(height - topMargin - bottomMargin)
         let tick = NSBezierPath()

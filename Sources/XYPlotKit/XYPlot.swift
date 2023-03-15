@@ -33,7 +33,7 @@ public class XYPlot: NSView {
     // public var numberBins = 0
     public var data: [Double] = []
     public var bins = [Int]()
-
+    
     // MARK: Histogram Methods
     
     /// Draw Histogram with set humber of bins for data
@@ -116,7 +116,7 @@ public class XYPlot: NSView {
         }
         // print("x: \(xMin) to \(xMax)")
         // print("y: \(yMin) to \(yMax)")
-
+        
         let xAxis = calcAxis(length: 20.0, min: xMin - binRange, max: xMax + binRange, minTicks: 5, maxTicks: 20)
         labelFormatX = labelFormat
         xLow = xAxis.from - binRange / 2
@@ -131,7 +131,7 @@ public class XYPlot: NSView {
         yBy = yAxis.by
         // print("x: \(xMin) to \(xMax)")
         // print("y: \(yMin) to \(yMax)")
-
+        
         // print("self.needsDisplay...")
         self.needsDisplay = true
         // print("updating histogram complete")
@@ -168,7 +168,7 @@ public class XYPlot: NSView {
         }
         return spacing
     }
-
+    
     
     // MARK: XYPlot Properties
     
@@ -179,15 +179,15 @@ public class XYPlot: NSView {
         static let textSpacing: CGFloat = 5
         static let tickHeight: CGFloat = 10
         static let markerSize: CGFloat = 10.0
-
+        
     }
     
     // MARK: Properties
-
+    
     /// Generates pdf data for plot
     /// - Returns: pdf data
-
-
+    
+    
     
     
     /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
@@ -224,7 +224,8 @@ public class XYPlot: NSView {
                 if autoScaleX || autoScaleY {
                     getAutoScale()
                 }
-                   plot1Data = getPlotPoints(dataPoints: data1)
+                plot1Data = getPlotPoints(dataPoints: data1)
+                print("plot data1 set (compressed)")
             }
         }
     }
@@ -236,7 +237,8 @@ public class XYPlot: NSView {
                 if autoScaleX || autoScaleY {
                     getAutoScale()
                 }
-                   plot2Data = getPlotPoints(dataPoints: data2)
+                plot2Data = getPlotPoints(dataPoints: data2)
+                print("plot data2 set (compressed)")
             }
         }
     }
@@ -247,7 +249,7 @@ public class XYPlot: NSView {
             plot3Data = data3
         }
     }
-
+    
     
     
     
@@ -322,7 +324,7 @@ public class XYPlot: NSView {
     // Plot Compression Properties
     public var maxPlotPoints = 3000 // max points to plot without compression
     public var plotSegments = 100.0 // used to compress points for plotting, (axis length / plotSegments for compression)
-
+    
     
     // Colors
     let borderColor = NSColor.black
@@ -345,7 +347,7 @@ public class XYPlot: NSView {
     public var axesTitleFontSize = 12.0
     public var plotLineWidth: CGFloat = 2.0
     public var markerLineWidth: CGFloat = 2.0
-
+    
     
     var labelColor = NSColor.black
     lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
@@ -427,7 +429,7 @@ public class XYPlot: NSView {
     
     
     
-
+    
     // MARK: Mouse Properties
     // Dragging Parameters
     var dragging = false
@@ -573,17 +575,17 @@ public class XYPlot: NSView {
     
     
     // MARK: Plotting Methods
-
+    
     public func pdfData() -> Data {
         return dataWithPDF(inside: bounds)
     }
-
+    
     
     /// Compress Plot Data for faster drawing (remove points on top of each other)
     /// - Parameter dataPoints: Raw data points, [(Double, Double)]
     /// - Returns: compressed points to plot, , [(Double, Double)]
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
-        print("data.getPlotPoints()")
+        print("data.getPlotPoints........")
         // get plot segment sizes
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments
@@ -613,7 +615,7 @@ public class XYPlot: NSView {
         return plotPoints
     }
     
-
+    
     
     /// Set x-axis properties
     /// - Parameters:
@@ -654,7 +656,7 @@ public class XYPlot: NSView {
         // Swift.print("draw() starting...")
         
         // Swift.print("bin count \(bins.count)")
-
+        
         
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right
@@ -1212,25 +1214,25 @@ public class XYPlot: NSView {
     
     override init(frame frameRect: NSRect) {
         /*
-        attributeTitle = [ NSAttributedString.Key.foregroundColor: navy,
-                           NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
+         attributeTitle = [ NSAttributedString.Key.foregroundColor: navy,
+         NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
          */
         
         attributeTitle = [.foregroundColor: navy,
-                           .font: fontLargeBoldItalic]
-
+                          .font: fontLargeBoldItalic]
+        
         /*
-        attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
-                           NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
-        */
+         attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
+         NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
+         */
         
         attributeLabel = [.foregroundColor: navy,
                           .font: fontLabel]
         
         /*
-        attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
-                         NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
-        */
+         attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
+         NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
+         */
         
         attributeAxis = [.foregroundColor: black,
                          .font: fontAxis]
@@ -1243,7 +1245,7 @@ public class XYPlot: NSView {
     required init?(coder: NSCoder) {
         // titleFontSize = 25
         attributeTitle = [.foregroundColor: navy,
-                           .font: fontLargeBoldItalic]
+                          .font: fontLargeBoldItalic]
         
         attributeLabel = [.foregroundColor: navy,
                           .font: fontLabel]

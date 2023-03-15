@@ -590,7 +590,7 @@ public class XYPlot: NSView {
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments
         
-        // print("data values.count \(dataPoints.count)")
+        print("data values.count \(dataPoints.count)")
         var plotPoints = [(Double, Double)]()
         
         // compress if count over maxPlotPoints
@@ -611,7 +611,7 @@ public class XYPlot: NSView {
         } else {
             plotPoints = dataPoints
         }
-        // print("XYPlot: Points to plot:", plotPoints.count)
+        print("XYPlot: Points to plot:", plotPoints.count)
         return plotPoints
     }
     

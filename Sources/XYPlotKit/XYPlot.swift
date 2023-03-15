@@ -27,7 +27,6 @@ public enum MouseAction {
 // @IBDesignable
 public class XYPlot: NSView {
     
-    // MARK: Histogram Properties
     
     // Bar Graph Data
     public var binRange = 1.0
@@ -173,11 +172,20 @@ public class XYPlot: NSView {
     
     // MARK: XYPlot Properties
     
+    private struct PlotDrawProperties {
+        static let borderLineWidth: CGFloat = 3.0
+        static let borderColor = NSColor.black
+        static let slectedColor = NSColor.red
+        static let textSpacing: CGFloat = 5
+        static let tickHeight: CGFloat = 10
+        static let markerSize: CGFloat = 10.0
+
+    }
+    
+    // MARK: Properties
+
     /// Generates pdf data for plot
     /// - Returns: pdf data
-    public func pdfData() -> Data {
-        return dataWithPDF(inside: bounds)
-    }
 
 
     
@@ -322,11 +330,11 @@ public class XYPlot: NSView {
     let slectedColor = NSColor.red
     
     
-    let borderLineWidth: CGFloat = 3.0
+    let borderLineWidth: CGFloat = PlotDrawProperties.borderLineWidth
     
-    let textSpacing: CGFloat = 5
-    let tickHeight: CGFloat = 10
-    let markerSize: CGFloat = 10.0
+    let textSpacing: CGFloat = PlotDrawProperties.textSpacing
+    let tickHeight: CGFloat = PlotDrawProperties.tickHeight
+    let markerSize: CGFloat = PlotDrawProperties.markerSize
     public var segmentSize = 1 // Max distance to detect data slce (eng units) when drawing a lline
     
     
@@ -335,7 +343,9 @@ public class XYPlot: NSView {
     
     public var titleFontSize = 15.0
     public var axesTitleFontSize = 12.0
-    
+    public var plotLineWidth: CGFloat = 2.0
+    public var markerLineWidth: CGFloat = 2.0
+
     
     var labelColor = NSColor.black
     lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
@@ -417,8 +427,6 @@ public class XYPlot: NSView {
     
     
     
-    public var plotLineWidth: CGFloat = 2.0
-    public var markerLineWidth: CGFloat = 2.0
 
     // MARK: Mouse Properties
     // Dragging Parameters
@@ -565,13 +573,17 @@ public class XYPlot: NSView {
     
     
     // MARK: Plotting Methods
-    
+
+    public func pdfData() -> Data {
+        return dataWithPDF(inside: bounds)
+    }
+
     
     /// Compress Plot Data for faster drawing (remove points on top of each other)
     /// - Parameter dataPoints: Raw data points, [(Double, Double)]
     /// - Returns: compressed points to plot, , [(Double, Double)]
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
-        // print("data.getPlotPoints()")
+        print("data.getPlotPoints()")
         // get plot segment sizes
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments

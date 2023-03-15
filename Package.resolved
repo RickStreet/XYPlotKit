@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/RickStreet/DoubleKit.git",
         "state": {
           "branch": null,
-          "revision": "4f74057aec64b4ef8a4aa9bc0cc564f7a0b2d14d",
-          "version": "1.0.6"
+          "revision": "f999726f0044cb9027ce418b42880dc4d2274f41",
+          "version": "1.0.7"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/RickStreet/StringKit.git",
         "state": {
           "branch": null,
-          "revision": "fe4bbab8d4154039d93ac0bb0335cbb2e55626df",
-          "version": "1.0.30"
+          "revision": "34c53cf5be002116f63772be6833358e122a48a1",
+          "version": "1.0.40"
         }
       }
     ]

@@ -662,6 +662,14 @@ public class XYPlot: NSView {
         
         // Swift.print("bin count \(bins.count)")
         
+        if data1.isEmpty {
+            plot1Data.removeAll()
+        }
+        
+        if data2.isEmpty {
+            plot2Data.removeAll()
+        }
+                
         
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right
@@ -984,7 +992,7 @@ public class XYPlot: NSView {
     }
     
     func getAutoScale() {
-        print("ploy autoscaling...")
+        print("plot autoscaling...")
         print("data1 count \(data1.count)")
         if plot1Data.count > 0 {
             xMin = data1[0].0

@@ -991,7 +991,10 @@ public class XYPlot: NSView {
             yMin = plot1Data[0].1
             yMax = yMin
         }
-        
+        print("Start autoscale")
+        print("x: max \(xMax) min \(xMin)")
+        print("y: max \(yMax) min \(yMin)")
+
         for point in plot1Data {
             if point.0 > xMax {
                 xMax = point.0
@@ -1006,6 +1009,10 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
+        print("plot1Data")
+        print("x: max \(xMax) min \(xMin)")
+        print("y: max \(yMax) min \(yMin)")
+
         for point in plot2Data {
             if point.0 > xMax {
                 xMax = point.0
@@ -1020,7 +1027,7 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        
+        print("plot2Data")
         print("x: max \(xMax) min \(xMin)")
         print("y: max \(yMax) min \(yMin)")
 

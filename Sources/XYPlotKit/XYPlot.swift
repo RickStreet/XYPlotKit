@@ -662,13 +662,6 @@ public class XYPlot: NSView {
         
         // Swift.print("bin count \(bins.count)")
         
-        if data1.isEmpty {
-            plot1Data.removeAll()
-        }
-        
-        if data2.isEmpty {
-            plot2Data.removeAll()
-        }
                 
         
         let paraRight = NSMutableParagraphStyle()
@@ -692,6 +685,19 @@ public class XYPlot: NSView {
             plotBars(color: barColor, marker: plot1Marker)
         }
         
+        if data1.isEmpty {
+            plot1Data.removeAll()
+        }
+        
+        if data2.isEmpty {
+            plot2Data.removeAll()
+        }
+        
+        if data3.isEmpty {
+            plot3Data.removeAll()
+        }
+
+        
         if plot1Data.count > 0 {
             // Swift.print("Drawing PlotLine 1")
             if plot1DrawLine {
@@ -705,7 +711,7 @@ public class XYPlot: NSView {
         }
         
         if plot2Data.count > 0 {
-            // Swift.print("Drawing PlotLine 2")
+            Swift.print("Drawing PlotLine 2")
             if plot2DrawLine {
                 plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
@@ -718,7 +724,7 @@ public class XYPlot: NSView {
         
         // Plot Outliers
         if plot3Data.count > 0 {
-            // Swift.print("Drawing PlotLine 3")
+            Swift.print("Drawing PlotLine 3")
             if plot3DrawLine {
                 plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }

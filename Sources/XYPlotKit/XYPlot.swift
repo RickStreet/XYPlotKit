@@ -587,6 +587,8 @@ public class XYPlot: NSView {
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
         print("data.getPlotPoints........")
         // get plot segment sizes
+        print("x: max \(xMax) min \(xMin)")
+        print("y: max \(yMax) min \(yMin)")
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments
         
@@ -982,6 +984,7 @@ public class XYPlot: NSView {
     }
     
     func getAutoScale() {
+        print("autoscaling...")
         if plot1Data.count > 0 {
             xMin = plot1Data[0].0
             xMax = xMin
@@ -1018,7 +1021,12 @@ public class XYPlot: NSView {
             }
         }
         
+        print("x: max \(xMax) min \(xMin)")
+        print("y: max \(yMax) min \(yMin)")
+
+        
         if autoScaleX {
+            print("auto scale x")
             // xLow = xLowTemp
             // xHigh = xHighTemp
             let axis = calcAxis(length: xLabelWidth, min: xMin, max: xMax)
@@ -1026,10 +1034,13 @@ public class XYPlot: NSView {
             xLow = axis.from
             xHigh = axis.to
             xBy = axis.by
-            // Swift.print("xLow: \(xLow)   xHigh: \(xHigh)")
+            Swift.print("Axes xLow: \(xLow)   xHigh: \(xHigh)")
+            print("x: max \(xMax) min \(xMin)")
+            print("y: max \(yMax) min \(yMin)")
         }
         
         if autoScaleY {
+            print("auto scale y")
             // yLow = yLowTemp
             // yHigh = yHighTemp
             // Swift.print("calling calcAxis")
@@ -1044,7 +1055,10 @@ public class XYPlot: NSView {
             yLow = axis.from
             yHigh = axis.to
             yBy = axis.by
-            // Swift.print("yLow: \(yLow)   yHigh: \(yHigh)")
+            Swift.print("Axes yLow: \(yLow)   yHigh: \(yHigh)")
+            print("x: max \(xMax) min \(xMin)")
+            print("y: max \(yMax) min \(yMin)")
+
         }
     }
     

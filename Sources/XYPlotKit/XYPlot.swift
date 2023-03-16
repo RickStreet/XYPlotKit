@@ -184,36 +184,6 @@ public class XYPlot: NSView {
     
     // MARK: Properties
     
-    /// Generates pdf data for plot
-    /// - Returns: pdf data
-    
-    
-    
-    
-    /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
-    public var plot1Data: [(Double, Double)] = [] {
-        didSet {
-            if !plot1Data.isEmpty {
-                if autoScaleX || autoScaleY {
-                    getAutoScale()
-                }
-            }
-        }
-    }
-    
-    /// Set data for plot 2 trace.  If data set is large, use data2 to copress it for quicker plot
-    public var plot2Data: [(Double, Double)] = [] {
-        didSet {
-            if !plot2Data.isEmpty {
-                if autoScaleX || autoScaleY {
-                    getAutoScale()
-                }
-            }
-        }
-    }
-    
-    /// Third plot trace used for outliers for exampole
-    public var plot3Data = [(Double, Double)]() // for outliers
     
     
     // Add data compression for ploting.  Raw plot data is in data1, data2, data3,
@@ -249,6 +219,34 @@ public class XYPlot: NSView {
             plot3Data = data3
         }
     }
+
+    
+    
+    /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
+    var plot1Data: [(Double, Double)] = [] {
+        didSet {
+            if !plot1Data.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
+            }
+        }
+    }
+    
+    /// Set data for plot 2 trace.  If data set is large, use data2 to copress it for quicker plot
+    var plot2Data: [(Double, Double)] = [] {
+        didSet {
+            if !plot2Data.isEmpty {
+                if autoScaleX || autoScaleY {
+                    getAutoScale()
+                }
+            }
+        }
+    }
+    
+    /// Third plot trace used for outliers for exampole
+    var plot3Data = [(Double, Double)]() // for outliers
+    
     
     
     
@@ -576,6 +574,8 @@ public class XYPlot: NSView {
     
     // MARK: Plotting Methods
     
+    /// Generates pdf data for plot
+    /// - Returns: pdf data
     public func pdfData() -> Data {
         return dataWithPDF(inside: bounds)
     }

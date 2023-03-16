@@ -984,18 +984,19 @@ public class XYPlot: NSView {
     }
     
     func getAutoScale() {
-        print("autoscaling...")
+        print("ploy autoscaling...")
+        print("data1 count \(data1.count)")
         if plot1Data.count > 0 {
-            xMin = plot1Data[0].0
+            xMin = data1[0].0
             xMax = xMin
-            yMin = plot1Data[0].1
+            yMin = data1[0].1
             yMax = yMin
         }
         print("Start autoscale")
         print("x: max \(xMax) min \(xMin)")
         print("y: max \(yMax) min \(yMin)")
 
-        for point in plot1Data {
+        for point in data1 {
             if point.0 > xMax {
                 xMax = point.0
             }
@@ -1009,11 +1010,11 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        print("plot1Data")
+        print("data1")
         print("x: max \(xMax) min \(xMin)")
         print("y: max \(yMax) min \(yMin)")
 
-        for point in plot2Data {
+        for point in data2 {
             if point.0 > xMax {
                 xMax = point.0
             }
@@ -1027,7 +1028,7 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        print("plot2Data")
+        print("data2")
         print("x: max \(xMax) min \(xMin)")
         print("y: max \(yMax) min \(yMin)")
 

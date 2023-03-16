@@ -610,7 +610,7 @@ public class XYPlot: NSView {
                     plotPoints.append(point)
                     // print("Appended:",plotPoints.count, point)
                 } else {
-                    print("Rejecting:", point)
+                    // print("Rejecting:", point)
                 }
             }
         } else {

@@ -27,7 +27,8 @@ public enum MouseAction {
 // @IBDesignable
 public class XYPlot: NSView {
     
-    
+    // MARK: Histogram Methods
+
     // Bar Graph Data
     public var binRange = 1.0
     // public var numberBins = 0
@@ -190,8 +191,10 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 1, will be compressed for faster ploting
     public var data1: [(Double, Double)] = [] {
         didSet {
+            print("plotXY: data1 set")
             if !data1.isEmpty {
                 if autoScaleX || autoScaleY {
+                    print("plotXY: data1 AutoScale")
                     getAutoScale()
                 }
                 plot1Data = getPlotPoints(dataPoints: data1)
@@ -203,8 +206,10 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 2, will be compressed for faster ploting
     public var data2: [(Double, Double)] = [] {
         didSet {
+            print("PlotXY: data2 set")
             if !data2.isEmpty {
                 if autoScaleX || autoScaleY {
+                    print("plotXY: data2 AutoScale")
                     getAutoScale()
                 }
                 plot2Data = getPlotPoints(dataPoints: data2)
@@ -216,12 +221,16 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 3, will not be compressed
     public var data3: [(Double, Double)] = [] {
         didSet {
+            print("PlotXY: data3 set")
             plot3Data = data3
         }
     }
 
-    
-    
+    var plot1Data = [(Double, Double)]()
+    var plot2Data = [(Double, Double)]()
+    var plot3Data = [(Double, Double)]() // for outliers
+
+    /*
     /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
     var plot1Data: [(Double, Double)] = [] {
         didSet {
@@ -243,9 +252,8 @@ public class XYPlot: NSView {
             }
         }
     }
-    
+    */
     /// Third plot trace used for outliers for exampole
-    var plot3Data = [(Double, Double)]() // for outliers
     
     
     

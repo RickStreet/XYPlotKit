@@ -658,6 +658,9 @@ public class XYPlot: NSView {
     public func clearPlot() {
         // NSColor.windowBackgroundColor().setFill()
         // NSRectFill(self.bounds)
+        data1.removeAll()
+        data2.removeAll()
+        data3.removeAll()
         plot1Data.removeAll()
         plot2Data.removeAll()
         plot3Data.removeAll()

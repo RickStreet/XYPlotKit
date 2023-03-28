@@ -1011,11 +1011,11 @@ public class XYPlot: NSView {
     func getAutoScale() {
         print("plot autoscaling...")
         print("data1 count \(data1.count)")
-        if plot1Data.count > 0 {
+        if data1.count > 0 {
             xMin = data1[0].0
-            xMax = xMin
+            xMax = data1[0].0
             yMin = data1[0].1
-            yMax = yMin
+            yMax = data1[0].1
         }
         print("Start autoscale")
         print("x: max \(xMax) min \(xMin)")

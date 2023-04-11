@@ -8,7 +8,7 @@
 //  Revisions:
 
 import Cocoa
-import StringKit
+import NSStringKit
 
 
 /// Allows selection of points by dragging a rectable or selecting  a point

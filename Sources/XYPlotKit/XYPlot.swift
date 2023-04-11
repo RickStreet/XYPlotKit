@@ -24,6 +24,7 @@ public enum MouseAction {
 }
 
 
+
 // @IBDesignable
 public class XYPlot: NSView {
     

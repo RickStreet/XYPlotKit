@@ -15,8 +15,17 @@
         "repositoryURL": "https://github.com/RickStreet/NSStringKit.git",
         "state": {
           "branch": null,
-          "revision": "5dc51e94f2edee00df243f93b3bed1c130fa8c5a",
-          "version": "1.0.4"
+          "revision": "e13fd8674022110e4ea9102fba2b30a3a5f02b6b",
+          "version": "1.0.6"
+        }
+      },
+      {
+        "package": "StringKit",
+        "repositoryURL": "https://github.com/RickStreet/StringKit.git",
+        "state": {
+          "branch": null,
+          "revision": "54755f47280de670a20bb5fa99f2ea065f410b70",
+          "version": "1.0.46"
         }
       }
     ]

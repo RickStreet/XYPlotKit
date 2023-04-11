@@ -10,7 +10,6 @@
 import Cocoa
 import NSStringKit
 
-
 /// Allows selection of points by dragging a rectable or selecting  a point
 public protocol UserSelected: AnyObject {
     func userSelectedLimits(xMin: Double?, xMax: Double?, yMin: Double?, yMax: Double?)
@@ -22,8 +21,6 @@ public enum MouseAction {
     case point
     case dragPoint
 }
-
-
 
 // @IBDesignable
 public class XYPlot: NSView {

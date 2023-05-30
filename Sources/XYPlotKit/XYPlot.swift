@@ -258,7 +258,7 @@ public class XYPlot: NSView {
     
     
     // Plot Colors
-    public var barColor = lightBlue
+    public var barColor = mediumBlue
     public var plot1Color = NSColor.blue
     public var plot2Color = forestGreen
     public var plot3Color = NSColor.red

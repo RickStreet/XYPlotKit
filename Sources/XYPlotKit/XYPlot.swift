@@ -1111,8 +1111,12 @@ public class XYPlot: NSView {
     /// - to: end of axis, Double
     /// - by: distance between ticks, Double
     private func calcAxis(length: CGFloat, min: Double, max: Double, minTicks: Int, maxTicks: Int) -> (from: Double, to: Double, by: Double) {
-        // print()
-        // print("calcAxis()")
+        print()
+        print("calcAxis()")
+        print("min \(min)")
+        print("max \(max)")
+        print("minTicks \(minTicks)")
+        print("maxTicks \(maxTicks)")
         // let maxTicks = 12
         // let minTicks = 5
         
@@ -1169,7 +1173,7 @@ public class XYPlot: NSView {
         let from = rMin
         let to = rMax
         let by = spacing
-        // print("from: \(from), to: \(to), by: \(by)")
+        print("from: \(from), to: \(to), by: \(by)")
         return (from: from, to: to, by: by)
     }
     

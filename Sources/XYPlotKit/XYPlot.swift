@@ -116,6 +116,7 @@ public class XYPlot: NSView {
         // print("x: \(xMin) to \(xMax)")
         // print("y: \(yMin) to \(yMax)")
         
+        // Histogram
         let xAxis = calcAxis(length: 20.0, min: xMin - binRange, max: xMax + binRange, minTicks: 5, maxTicks: 20)
         labelFormatX = labelFormat
         xLow = xAxis.from - binRange / 2
@@ -178,6 +179,8 @@ public class XYPlot: NSView {
         static let textSpacing: CGFloat = 5
         static let tickHeight: CGFloat = 10
         static let markerSize: CGFloat = 10.0
+        static let minTicks: Int = 5
+        static let maxTicks: Int = 12
         
     }
     
@@ -1094,7 +1097,7 @@ public class XYPlot: NSView {
     }
     
     private func calcAxis(length: CGFloat, min: Double, max: Double) -> (from: Double, to: Double, by: Double) {
-        return calcAxis(length: length, min: min, max: max, minTicks: 5, maxTicks: 12)
+        return calcAxis(length: length, min: min, max: max, minTicks: PlotDrawProperties.minTicks, maxTicks: PlotDrawProperties.maxTicks)
     }
     
     /// Calc axis min, max and tick distance

@@ -352,13 +352,17 @@ public class XYPlot: NSView {
     
     public var titleFontSize = 15.0
     public var axesTitleFontSize = 12.0
+    public var labelFontSize = 15.0
     public var plotLineWidth: CGFloat = 2.0
     public var markerLineWidth: CGFloat = 2.0
     
     
     var labelColor = NSColor.black
-    lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
-    
+    lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(labelFontSize))! // Axes number label size
+    lazy var titleFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
+    lazy var axesTitleFont = NSFont(name: "Helvetica Neue", size: CGFloat(axesTitleFontSize))! // Axes number label size
+
+
     var labelXLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")
     // var labelXHigh: NSMutableAttributedString = NSMutableAttributedString(string:"100.0")
     var labelYLow: NSMutableAttributedString = NSMutableAttributedString(string:"0.0")

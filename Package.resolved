@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "AxisSpacing",
+        "repositoryURL": "https://github.com/RickStreet/AxisSpacing.git",
+        "state": {
+          "branch": null,
+          "revision": "4d8b8afdec3c8fcc5527d7fbff13d5e0e66205eb",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "DoubleKit",
         "repositoryURL": "https://github.com/RickStreet/DoubleKit.git",
         "state": {

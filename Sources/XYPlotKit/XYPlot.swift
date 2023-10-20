@@ -920,26 +920,34 @@ public class XYPlot: NSView {
     }
     
     func drawTitles() {
-        
+
         if let customTitle = customTitle {
             labelTitle = customTitle
         } else {
             labelTitle.addAttributes(attributeTitle, range: NSRange(location: 0, length: labelTitle.length))
         }
-        
         var size = labelTitle.size()
         
-        var r = CGRect(x:(width - leftMargin - rightMargin - size.width)/2 + leftMargin,
+        // var titleWidth = size.width * 1.1
+        /*
+        var r = CGRect(x:(width - leftMargin - rightMargin - titleWidth)/2 + leftMargin,
                        y: height - topMargin + textSpacing,
                        width: width,
                        height: size.height)
         labelTitle.draw(in: r)
+         */
         
+        var r = CGRect(x:leftMargin,
+                       y: height - topMargin + textSpacing,
+                       width: width - leftMargin - rightMargin,
+                       height: size.height)
+        labelTitle.draw(in: r)
+
         // X-Axis Label
         if let customXAxisTitle = customXAxisTitle {
             labelXAxis = customXAxisTitle
         } else {
-            labelXAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelXAxis.length))
+            labelXAxis.addAttributes(attributeAxis, range: NSRange(location: 0, length: labelXAxis.length))
         }
         size = labelXAxis.size()
         
@@ -955,7 +963,7 @@ public class XYPlot: NSView {
         if let customYAxisTitle = customYAxisTitle {
             labelYAxis = customYAxisTitle
         } else {
-            labelYAxis.addAttributes(attributeLabel, range: NSRange(location: 0, length: labelYAxis.length))
+            labelYAxis.addAttributes(attributeAxis, range: NSRange(location: 0, length: labelYAxis.length))
         }
         size = labelYAxis.size()
         r = CGRect(x: 0,
@@ -1277,8 +1285,13 @@ public class XYPlot: NSView {
          NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
          */
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+
+        
         attributeTitle = [.foregroundColor: navy,
-                          .font: fontLargeBoldItalic]
+                          .font: fontLargeBoldItalic,
+                .paragraphStyle: paragraphStyle]
         
         /*
          attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
@@ -1294,7 +1307,8 @@ public class XYPlot: NSView {
          */
         
         attributeAxis = [.foregroundColor: black,
-                         .font: fontAxis]
+                         .font: fontAxis,
+                         .paragraphStyle: paragraphStyle]
         
         super.init(frame:frameRect)
         

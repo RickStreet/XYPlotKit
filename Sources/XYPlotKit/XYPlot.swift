@@ -298,10 +298,11 @@ public class XYPlot: NSView {
     public weak var delegate: UserSelected? = nil
     
     
-    /*
-     override var isOpaque: Bool {
-     return false    }
-     */
+    
+    public override var isOpaque: Bool {
+        return false
+    }
+     
     // lightGrey.setFill()
     
     

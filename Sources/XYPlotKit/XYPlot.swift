@@ -938,7 +938,7 @@ public class XYPlot: NSView {
         labelTitle.draw(in: r)
          */
         
-        var r = CGRect(x:leftMargin,
+        var r = CGRect(x:leftMargin + size.width / 2.0,
                        y: height - topMargin + textSpacing,
                        width: width - leftMargin - rightMargin,
                        height: size.height)

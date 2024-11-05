@@ -428,12 +428,12 @@ public class XYPlot: NSView {
     var attributeTitle: [NSAttributedString.Key : Any] {
         paragraphTitleStyle.alignment = .center
         if self.isDarkMode {
-            print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: navy,
                     .font: fontLargeBoldItalic,
                     .paragraphStyle: paragraphTitleStyle]
         } else {
-            print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: lightBlue,
                     .font: fontLargeBoldItalic,
                     .paragraphStyle: paragraphTitleStyle]

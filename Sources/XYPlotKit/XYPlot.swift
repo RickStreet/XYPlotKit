@@ -174,8 +174,8 @@ public class XYPlot: NSView {
     
     private struct PlotDrawProperties {
         static let borderLineWidth: CGFloat = 3.0
-        static let borderColor = NSColor.black
-        static let slectedColor = NSColor.red
+        static let borderColor = NSColor.labelColor
+        static let slectedColor = NSColor.systemRed
         static let textSpacing: CGFloat = 5
         static let tickHeight: CGFloat = 10
         static let markerSize: CGFloat = 10.0
@@ -262,9 +262,9 @@ public class XYPlot: NSView {
     
     // Plot Colors
     public var barColor = mediumBlue
-    public var plot1Color = NSColor.blue
-    public var plot2Color = forestGreen
-    public var plot3Color = NSColor.red
+    public var plot1Color = NSColor.systemBlue
+    public var plot2Color = NSColor.systemGreen
+    public var plot3Color = NSColor.systemRed
     
     // Plot Markers
     public lazy var plot1Marker: ((CGPoint) -> Void) = markerCross
@@ -335,9 +335,9 @@ public class XYPlot: NSView {
     
     
     // Colors
-    let borderColor = NSColor.black
+    let borderColor = NSColor.labelColor
     // let forestColor = NSColor(red: 0.0/255.0, green: 153.0/255.0, blue: 76.0/255.0, alpha: 1.0)
-    let slectedColor = NSColor.red
+    let slectedColor = NSColor.systemRed
     
     
     let borderLineWidth: CGFloat = PlotDrawProperties.borderLineWidth
@@ -358,7 +358,7 @@ public class XYPlot: NSView {
     public var markerLineWidth: CGFloat = 2.0
     
     
-    var labelColor = NSColor.black
+    var labelColor = NSColor.labelColor
     lazy var labelFont = NSFont(name: "Helvetica Neue", size: CGFloat(labelFontSize))! // Axes number label size
     lazy var titleFont = NSFont(name: "Helvetica Neue", size: CGFloat(titleFontSize))! // Axes number label size
     lazy var axesTitleFont = NSFont(name: "Helvetica Neue", size: CGFloat(axesTitleFontSize))! // Axes number label size
@@ -370,8 +370,9 @@ public class XYPlot: NSView {
     // var labelYHigh: NSMutableAttributedString = NSMutableAttributedString(string:"100.0")
     
     
-    var titleColor = NSColor.black
+    var titleColor = NSColor.labelColor
     // var titleFontSize: Int
+    
     
     @IBInspectable
     /// Title for Plot.  Use customTitle for attributed string.
@@ -420,7 +421,26 @@ public class XYPlot: NSView {
     var labelYAxis: NSMutableAttributedString = NSMutableAttributedString(string:"")
     
     /// Attributes fo title
-    public var attributeTitle: [NSAttributedString.Key: Any]
+    // public var attributeTitle: [NSAttributedString.Key: Any]
+ 
+    let paragraphTitleStyle = NSMutableParagraphStyle()
+
+    var attributeTitle: [NSAttributedString.Key : Any] {
+        paragraphTitleStyle.alignment = .center
+        if self.isDarkMode {
+            print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return [.foregroundColor: navy,
+                    .font: fontLargeBoldItalic,
+                    .paragraphStyle: paragraphTitleStyle]
+        } else {
+            print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return [.foregroundColor: lightBlue,
+                    .font: fontLargeBoldItalic,
+                    .paragraphStyle: paragraphTitleStyle]
+        }
+    }
+
+    
     
     /// Attributes for label
     public var attributeLabel: [NSAttributedString.Key: Any]
@@ -470,7 +490,7 @@ public class XYPlot: NSView {
             shapeLayer = CAShapeLayer()
             shapeLayer.lineWidth = 1.0
             shapeLayer.fillColor = NSColor.clear.cgColor
-            shapeLayer.strokeColor = NSColor.black.cgColor
+            shapeLayer.strokeColor = NSColor.systemPurple.cgColor
             shapeLayer.lineDashPattern = [10,5]
             self.layer?.addSublayer(shapeLayer)
             
@@ -600,6 +620,7 @@ public class XYPlot: NSView {
     /// - Returns: compressed points to plot, , [(Double, Double)]
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
         print("data.getPlotPoints........")
+        print("compressing...")
         // get plot segment sizes
         print("x: max \(xMax) min \(xMin)")
         print("y: max \(yMax) min \(yMin)")
@@ -1288,11 +1309,26 @@ public class XYPlot: NSView {
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-
         
-        attributeTitle = [.foregroundColor: navy,
+
+        /*
+        attributeTitle = [.foregroundColor: NSColor.textColor,
                           .font: fontLargeBoldItalic,
                 .paragraphStyle: paragraphStyle]
+        */
+        
+        /*
+        var attributeTest: [NSAttributedString.Key : Any] {
+            if self.isDarkMode {
+                return [.foregroundColor: navy,
+                        .font: fontLargeBoldItalic,
+              .paragraphStyle: paragraphStyle]
+            } else {
+                return [.foregroundColor: lightBlue,
+                        .font: fontLargeBoldItalic,
+              .paragraphStyle: paragraphStyle]
+            }
+        */
         
         /*
          attributeLabel = [ NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): navy,
@@ -1318,8 +1354,10 @@ public class XYPlot: NSView {
     
     required init?(coder: NSCoder) {
         // titleFontSize = 25
+        /*
         attributeTitle = [.foregroundColor: navy,
                           .font: fontLargeBoldItalic]
+        */
         
         attributeLabel = [.foregroundColor: navy,
                           .font: fontLabel]
@@ -1334,3 +1372,13 @@ public class XYPlot: NSView {
     
 }
 
+extension NSView {
+    var isDarkMode: Bool {
+        if #available(OSX 10.14, *) {
+            if effectiveAppearance.name == .darkAqua {
+                return true
+            }
+        }
+        return false
+    }
+}

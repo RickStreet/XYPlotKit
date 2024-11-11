@@ -23,151 +23,8 @@ public enum MouseAction {
 }
 
 // @IBDesignable
+@available(macOS 11.0, *)
 public class XYPlot: NSView {
-    
-    // MARK: Histogram Methods
-
-    // Bar Graph Data
-    public var binRange = 1.0
-    // public var numberBins = 0
-    public var data: [Double] = []
-    public var bins = [Int]()
-    
-    // MARK: Histogram Methods
-    
-    /// Draw Histogram with set humber of bins for data
-    /// - Parameters:
-    ///   - numberBins: Number of bins for histogram
-    ///   - data: data for histogram
-    public func histogram(numberBins: Int, data: [Double]) {
-        // self.numberBins = numberBins
-        self.data = data
-        let histogram = data.histogram(numberBins: bins.count)
-        bins = histogram.bins
-        binRange = histogram.binRange
-        yMin = 0.0
-        if let max = bins.max() {
-            yMax = Double(max)
-        }
-        
-        if let min = data.min() {
-            xMin = min
-        }
-        if let max = data.max() {
-            xMax = max
-        }
-        // print("x: min \(xMin)  max \(xMax)")
-        // print("y: min \(yMin)  max \(yMax)")
-        
-        let xAxis = calcAxis(length: xLabelWidth, min: xMin - binRange, max: xMax + binRange)
-        labelFormatX = labelFormat
-        xLow = xAxis.from
-        xHigh = xAxis.to
-        xBy = xAxis.by
-        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
-        
-        let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
-        labelFormatY = labelFormat
-        yLow = yAxis.from
-        yHigh = yAxis.to
-        yBy = yAxis.by
-        
-        // print("bins \(bins)")
-        // print("binRange \(binRange)")
-    }
-    
-    /// Histogram with bin size from data
-    /// - Parameters:
-    ///   - binRange: bin width
-    ///   - data: data for histogram
-    public func histogram(binRange: Double, data: [Double]) {
-        // print("range histogram...")
-        self.binRange = binRange
-        self.data = data
-        bins = data.histogram(binRange: binRange)
-        // print("no bins \(bins.count)")
-        // print(bins)
-        // numberBins = bins.count
-        updateHistogram(binRange: binRange)
-        // print("range histogram complete")
-    }
-    
-    /// Redraw histogram with new range using last data
-    /// - Parameter binRange: New bin width
-    public func updateHistogram(binRange: Double) {
-        // print("updating histogram...")
-        self.binRange = binRange
-        bins = data.histogram(binRange: binRange)
-        // print("number bins \(bins.count)")
-        // print(bins)
-        // numberBins = bins.count
-        // print("number bins \(bins.count)")
-        if let min = data.min() {
-            xMin = min
-        }
-        if let max = data.max() {
-            xMax = max
-        }
-        
-        yMin = 0.0
-        if let max = bins.max() {
-            yMax = Double(max)
-        }
-        // print("x: \(xMin) to \(xMax)")
-        // print("y: \(yMin) to \(yMax)")
-        
-        // Histogram
-        let xAxis = calcAxis(length: 20.0, min: xMin - binRange, max: xMax + binRange, minTicks: 5, maxTicks: 20)
-        labelFormatX = labelFormat
-        xLow = xAxis.from - binRange / 2
-        xHigh = xAxis.to
-        xBy = xAxis.by
-        // print("xLow \(xLow)  xHigh \(xHigh)  xBy \(xBy)")
-        
-        let yAxis = calcAxis(length: labelHeight, min: yMin, max: yMax)
-        labelFormatY = labelFormat
-        yLow = yAxis.from
-        yHigh = yAxis.to
-        yBy = yAxis.by
-        // print("x: \(xMin) to \(xMax)")
-        // print("y: \(yMin) to \(yMax)")
-        
-        // print("self.needsDisplay...")
-        self.needsDisplay = true
-        // print("updating histogram complete")
-    }
-    
-    /// Suggest asthetic bin width
-    /// - Parameters:
-    ///   - min: Min value in data
-    ///   - max: Max value ijn data
-    /// - Returns: suggested bin width
-    public func suggestedHistogramSpacing(min: Double, max: Double) -> Double {
-        let roundBys = [1000.0, 500.0, 200.0, 100.0, 50.0, 25.0, 20.0, 10.0, 5.0, 4.0, 2.0, 1.0, 0.5, 0.25, 0.2, 0.1, 0.05, 0.025, 0.02, 0.01, 0.001, 0.0001]
-        let maxSegments = 15
-        let minSegments = 5
-        let range = max - min
-        var spacing = 0.0
-        let maxSpacing = range / Double(minSegments)
-        let rawSpacing = range / Double(maxSegments)
-        // var rMin = min
-        // var rMax = max
-        for n in roundBys {
-            // Swift.print("\(n)")
-            if n < maxSpacing {
-                let newMin = roundDown(value: min, by: n)
-                let newMax = roundUp(value: max, by: n)
-                if (min - newMin <= rawSpacing) && (newMax - max <= rawSpacing) {
-                    //rMin = newMin
-                    //rMax = newMax
-                    // roundBy = n
-                    spacing = roundUp(value: rawSpacing, by: n)
-                    break
-                }
-            }
-        }
-        return spacing
-    }
     
     
     // MARK: XYPlot Properties
@@ -175,7 +32,7 @@ public class XYPlot: NSView {
     private struct PlotDrawProperties {
         static let borderLineWidth: CGFloat = 3.0
         static let borderColor = NSColor.labelColor
-        static let slectedColor = NSColor.systemRed
+        static let slectedColor = dynamicRed
         static let textSpacing: CGFloat = 5
         static let tickHeight: CGFloat = 10
         static let markerSize: CGFloat = 10.0
@@ -231,40 +88,10 @@ public class XYPlot: NSView {
     var plot2Data = [(Double, Double)]()
     var plot3Data = [(Double, Double)]() // for outliers
 
-    /*
-    /// Set data for plot 1 trace.  If data set is large, use data1 to copress it for quicker plot
-    var plot1Data: [(Double, Double)] = [] {
-        didSet {
-            if !plot1Data.isEmpty {
-                if autoScaleX || autoScaleY {
-                    getAutoScale()
-                }
-            }
-        }
-    }
-    
-    /// Set data for plot 2 trace.  If data set is large, use data2 to copress it for quicker plot
-    var plot2Data: [(Double, Double)] = [] {
-        didSet {
-            if !plot2Data.isEmpty {
-                if autoScaleX || autoScaleY {
-                    getAutoScale()
-                }
-            }
-        }
-    }
-    */
-    /// Third plot trace used for outliers for exampole
-    
-    
-    
-    
-    
     // Plot Colors
-    public var barColor = mediumBlue
-    public var plot1Color = NSColor.systemBlue
-    public var plot2Color = NSColor.systemGreen
-    public var plot3Color = NSColor.systemRed
+    public var plot1Color = dynamicBlue
+    public var plot2Color = dynamicForestGreen
+    public var plot3Color = dynamicRed
     
     // Plot Markers
     public lazy var plot1Marker: ((CGPoint) -> Void) = markerCross
@@ -337,7 +164,7 @@ public class XYPlot: NSView {
     // Colors
     let borderColor = NSColor.labelColor
     // let forestColor = NSColor(red: 0.0/255.0, green: 153.0/255.0, blue: 76.0/255.0, alpha: 1.0)
-    let slectedColor = NSColor.systemRed
+    let slectedColor = dynamicRed
     
     
     let borderLineWidth: CGFloat = PlotDrawProperties.borderLineWidth
@@ -429,7 +256,7 @@ public class XYPlot: NSView {
         paragraphStyle.alignment = .center
         if self.isDarkMode {
             Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            return [.foregroundColor: lightBlue,
+            return [.foregroundColor: NSColor.systemIndigo,
                     .font: fontLargeBoldItalic,
                     .paragraphStyle: paragraphStyle]
         } else {
@@ -443,7 +270,22 @@ public class XYPlot: NSView {
     
     
     /// Attributes for label
-    public var attributeLabel: [NSAttributedString.Key: Any]
+    public var attributeLabel: [NSAttributedString.Key: Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        if self.isDarkMode {
+            Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return [.foregroundColor: brightBlue,
+                    .font: labelFont,
+                    .paragraphStyle: paragraphStyle]
+        } else {
+            Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            return [.foregroundColor: navy,
+                    .font: labelFont,
+                    .paragraphStyle: paragraphStyle]
+        }
+ 
+    }
     
     /// Attributes for Axis
     public var attributeAxis: [NSAttributedString.Key: Any]
@@ -696,12 +538,23 @@ public class XYPlot: NSView {
     }
     
     override public func draw(_: CGRect) {
+
+        
         // Swift.print("draw() starting...")
         
         // Swift.print("bin count \(bins.count)")
         
-                
-        
+        if let layer = self.layer {
+            layer.backgroundColor = NSColor.windowBackgroundColor.cgColor
+            /*
+            if self.isDarkMode {
+                layer.backgroundColor = NSColor.gray.cgColor
+            } else {
+                layer.backgroundColor = lightestGray.cgColor
+            }
+            */
+        }
+
         let paraRight = NSMutableParagraphStyle()
         paraRight.alignment = .right
         
@@ -718,10 +571,6 @@ public class XYPlot: NSView {
         
         // Swift.print("drawing tics")
         drawTicks()
-        if bins.count > 2 {
-            // Swift.print("Drawing Histogram from Draw()")
-            plotBars(color: barColor, marker: plot1Marker)
-        }
         
         if data1.isEmpty {
             plot1Data.removeAll()
@@ -807,38 +656,7 @@ public class XYPlot: NSView {
             marker(pointPlot)
         }
     }
-    
-    func plotBars(color: NSColor, marker: (CGPoint) -> Void) {
-        // Swift.print("plotBars()...")
-        color.setStroke()
-        for (i, count) in bins.enumerated() {
-            // Swift.print()
-            // Swift.print("drawing bin \(i)")
-            // Swift.print("xMin \(xMin)")
-            // Swift.print("x: \(xMin + Double(i) * binRange) to y: \(0.0)")
-            // Swift.print("x: \(xMin + Double(i) * binRange) to y: \(Double(count))")
-            // Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(Double(count))")
-            // Swift.print("x: \(xMin + Double(i + 1) * binRange) to y: \(0.0)")
-            let borderPath = NSBezierPath()
-            // color.setStroke()
-            borderPath.move(to: CGPoint(x: xPointCoordinate(xMin + Double(i) * binRange), y: yPointCoordinate(0.0)))
-            borderPath.line(to: CGPoint(x: xPointCoordinate(xMin + Double(i) * binRange), y: yPointCoordinate(Double(count))))
-            borderPath.line(to: CGPoint(x: xPointCoordinate(xMin + Double(i + 1) * binRange), y: yPointCoordinate(Double(count))))
-            borderPath.line(to: CGPoint(x: xPointCoordinate(xMin + Double(i + 1) * binRange) , y: yPointCoordinate(0.0)))
-            borderPath.close()
-            NSColor.black.setStroke()
-            borderPath.stroke()
-            
-            color.setFill()
-            borderPath.fill()
-            
-            // color.setStroke()
-            // borderPath.stroke()
-            
-        }
-        // Swift.print("finished plotBars()")
-    }
-    
+        
     public func markerCircle(point: CGPoint) {
         let radius = markerSize / 2.0
         let path = NSBezierPath()
@@ -877,8 +695,17 @@ public class XYPlot: NSView {
         borderPath.line(to: CGPoint(x: leftMargin , y: height - topMargin))
         borderPath.close()
         
-        lightestGray.setFill()
-        borderPath.fill()
+        /*
+        if self.isDarkMode {
+            NSColor.gray.setFill()
+            borderPath.fill()
+        } else {
+            lightestGray.setFill()
+            borderPath.fill()
+        }
+        */
+        
+        NSColor.windowBackgroundColor.setFill()
         
         borderColor.setStroke()
         borderPath.stroke()
@@ -942,7 +769,8 @@ public class XYPlot: NSView {
     }
     
     func drawTitles() {
-
+        Swift.print()
+        Swift.print("drawTitles()...")
         if let customTitle = customTitle {
             labelTitle = customTitle
         } else {
@@ -959,10 +787,23 @@ public class XYPlot: NSView {
         labelTitle.draw(in: r)
          */
         
+        /*
         var r = CGRect(x: (width - leftMargin - rightMargin - size.width)/2 + leftMargin,
                        y: height - topMargin + textSpacing,
                        width: width - leftMargin - rightMargin,
                        height: size.height)
+        */
+
+        var r = CGRect(x: leftMargin,
+                       y: height - topMargin + textSpacing,
+                       width: width - leftMargin - rightMargin,
+                       height: size.height)
+
+        
+        print("rect width\(r.width)")
+        print("rect minX\(r.minX)")
+        print("rect maxX\(r.maxX)")
+
         labelTitle.draw(in: r)
 
         // X-Axis Label
@@ -1307,6 +1148,7 @@ public class XYPlot: NSView {
          NSAttributedString.Key.font: NSFont(name: "HelveticaNeue-BoldItalic", size: 25)!]
          */
         
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         
@@ -1335,15 +1177,13 @@ public class XYPlot: NSView {
          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 20.0)!]
          */
         
-        attributeLabel = [.foregroundColor: navy,
-                          .font: fontLabel]
-        
+
         /*
          attributeAxis = [NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): NSColor.black,
          NSAttributedString.Key.font: NSFont(name: "Helvetica Neue", size: 15.0)!]
          */
         
-        attributeAxis = [.foregroundColor: black,
+        attributeAxis = [.foregroundColor: NSColor.labelColor,
                          .font: fontAxis,
                          .paragraphStyle: paragraphStyle]
         
@@ -1359,10 +1199,8 @@ public class XYPlot: NSView {
                           .font: fontLargeBoldItalic]
         */
         
-        attributeLabel = [.foregroundColor: navy,
-                          .font: fontLabel]
         
-        attributeAxis = [.foregroundColor: black,
+        attributeAxis = [.foregroundColor: NSColor.labelColor,
                          .font: fontAxis]
         
         super.init(coder: coder)

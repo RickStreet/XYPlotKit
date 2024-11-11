@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/RickStreet/AxisSpacing.git",
         "state": {
           "branch": null,
-          "revision": "4d8b8afdec3c8fcc5527d7fbff13d5e0e66205eb",
-          "version": "1.0.0"
+          "revision": "3bee551a68d4f23d41f30c12f2dfa60eddc3cb87",
+          "version": "1.1.1"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/RickStreet/DoubleKit.git",
         "state": {
           "branch": null,
-          "revision": "f999726f0044cb9027ce418b42880dc4d2274f41",
-          "version": "1.0.7"
+          "revision": "3c94b6220a172910ae974b773859126beefeb926",
+          "version": "1.0.8"
         }
       },
       {
@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/RickStreet/NSStringKit.git",
         "state": {
           "branch": null,
-          "revision": "3fe06d4290cc20203634112a7302faeae2d73e9d",
-          "version": "1.0.11"
+          "revision": "283cd87c452362bf7d10d902a0fc8d14d88c5d3d",
+          "version": "1.0.20"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/RickStreet/StringKit.git",
         "state": {
           "branch": null,
-          "revision": "947b0018c4c15012ec1854349fdc1114596bdd88",
-          "version": "1.0.50"
+          "revision": "b4205f72b24552d057e32a12891198b5ad85f5fe",
+          "version": "1.0.52"
         }
       }
     ]

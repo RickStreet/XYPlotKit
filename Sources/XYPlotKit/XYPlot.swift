@@ -545,7 +545,7 @@ public class XYPlot: NSView {
         // Swift.print("bin count \(bins.count)")
         
         if let layer = self.layer {
-            layer.backgroundColor = NSColor.windowBackgroundColor.cgColor
+            layer.backgroundColor = dynamicWindowBackgroundColor.cgColor
             /*
             if self.isDarkMode {
                 layer.backgroundColor = NSColor.gray.cgColor
@@ -1204,19 +1204,5 @@ public class XYPlot: NSView {
                          .font: fontAxis]
         
         super.init(coder: coder)
-    }
-    
-    
-    
-}
-
-extension NSView {
-    var isDarkMode: Bool {
-        if #available(OSX 10.14, *) {
-            if effectiveAppearance.name == .darkAqua {
-                return true
-            }
-        }
-        return false
     }
 }

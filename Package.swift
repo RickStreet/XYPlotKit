@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/RickStreet/DoubleKit.git", from: "1.0.6"),
-        .package(url: "https://github.com/RickStreet/NSStringKit.git", from: "1.0.20"),
+        .package(url: "https://github.com/RickStreet/NSStringKit.git", from: "1.0.22"),
         .package(url: "https://github.com/RickStreet/AxisSpacing.git", from: "1.0.0")
 
     ],

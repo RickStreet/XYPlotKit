@@ -8,7 +8,7 @@
 import Cocoa
 
 extension NSView {
-    var isDarkMode: Bool {
+    public var isDarkMode: Bool {
         if #available(OSX 10.14, *) {
             if effectiveAppearance.name == .darkAqua {
                 return true
@@ -17,8 +17,7 @@ extension NSView {
         return false
     }
     
-    var backgroundColor: NSColor? {
-
+    public var backgroundColor: NSColor? {
             get {
                 if let colorRef = self.layer?.backgroundColor {
                     return NSColor(cgColor: colorRef)
@@ -26,7 +25,6 @@ extension NSView {
                     return nil
                 }
             }
-
             set {
                 self.wantsLayer = true
                 self.layer?.backgroundColor = newValue?.cgColor

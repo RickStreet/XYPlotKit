@@ -9,6 +9,9 @@
 
 import Cocoa
 import NSStringKit
+import NSViewMode
+
+ 
 
 /// Allows selection of points by dragging a rectable or selecting  a point
 public protocol UserSelected: AnyObject {

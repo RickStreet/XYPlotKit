@@ -29,6 +29,15 @@
         }
       },
       {
+        "package": "NSViewMode",
+        "repositoryURL": "https://github.com/RickStreet/NSViewMode",
+        "state": {
+          "branch": null,
+          "revision": "f6f6e1e5f3d80ebdc72378cd79f85ebcc0bef82f",
+          "version": "1.0.2"
+        }
+      },
+      {
         "package": "StringKit",
         "repositoryURL": "https://github.com/RickStreet/StringKit.git",
         "state": {

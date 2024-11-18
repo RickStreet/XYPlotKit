@@ -14,6 +14,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/RickStreet/DoubleKit.git", from: "1.0.6"),
         .package(url: "https://github.com/RickStreet/NSStringKit.git", from: "1.0.22"),
+        .package(url: "https://github.com/RickStreet/NSViewMode", from: "1.0.02"),
         .package(url: "https://github.com/RickStreet/AxisSpacing.git", from: "1.0.0")
 
     ],
@@ -22,9 +23,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "XYPlotKit",
-            dependencies: ["DoubleKit", "NSStringKit", "AxisSpacing"]),
+            dependencies: ["DoubleKit", "NSStringKit", "NSViewMode", "AxisSpacing"]),
         .testTarget(
             name: "XYPlotKitTests",
-            dependencies: ["XYPlotKit", "DoubleKit", "NSStringKit", "AxisSpacing"]),
+            dependencies: ["XYPlotKit", "DoubleKit", "NSStringKit", "NSViewMode", "AxisSpacing"]),
     ]
 )

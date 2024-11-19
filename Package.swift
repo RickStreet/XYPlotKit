@@ -12,10 +12,10 @@ let package = Package(
             targets: ["XYPlotKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/RickStreet/DoubleKit.git", from: "1.0.6"),
-        .package(url: "https://github.com/RickStreet/NSStringKit.git", from: "1.0.22"),
-        .package(url: "https://github.com/RickStreet/NSViewMode", from: "1.0.02"),
-        .package(url: "https://github.com/RickStreet/AxisSpacing.git", from: "1.0.0")
+        .package(url: "https://github.com/RickStreet/DoubleKit.git", from: "1.0.8"),
+        .package(url: "https://github.com/RickStreet/NSStringKit.git", from: "1.0.23"),
+        .package(url: "https://github.com/RickStreet/NSViewMode", from: "1.0.5"),
+        .package(url: "https://github.com/RickStreet/AxisSpacing.git", from: "1.1.1")
 
     ],
     targets: [

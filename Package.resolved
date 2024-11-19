@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/RickStreet/NSStringKit.git",
         "state": {
           "branch": null,
-          "revision": "4b916256ae566c6751291d245d84450d10e7a362",
-          "version": "1.0.22"
+          "revision": "827b8a5a8a48d217a1eaf5f1e9a58858d33d0cd8",
+          "version": "1.0.23"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/RickStreet/NSViewMode",
         "state": {
           "branch": null,
-          "revision": "f6f6e1e5f3d80ebdc72378cd79f85ebcc0bef82f",
-          "version": "1.0.2"
+          "revision": "520829acf28a1c4420996f309825c8c3a3c83913",
+          "version": "1.0.5"
         }
       },
       {

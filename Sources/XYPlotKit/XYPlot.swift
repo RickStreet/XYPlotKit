@@ -52,14 +52,14 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 1, will be compressed for faster ploting
     public var data1: [(Double, Double)] = [] {
         didSet {
-            print("plotXY: data1 set")
+            // print("plotXY: data1 set")
             if !data1.isEmpty {
                 if autoScaleX || autoScaleY {
-                    print("plotXY: data1 AutoScale")
+                    // print("plotXY: data1 AutoScale")
                     getAutoScale()
                 }
                 plot1Data = getPlotPoints(dataPoints: data1)
-                print("plot data1 set (compressed)")
+                // print("plot data1 set (compressed)")
             }
         }
     }
@@ -67,14 +67,14 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 2, will be compressed for faster ploting
     public var data2: [(Double, Double)] = [] {
         didSet {
-            print("PlotXY: data2 set")
+            // print("PlotXY: data2 set")
             if !data2.isEmpty {
                 if autoScaleX || autoScaleY {
-                    print("plotXY: data2 AutoScale")
+                    // print("plotXY: data2 AutoScale")
                     getAutoScale()
                 }
                 plot2Data = getPlotPoints(dataPoints: data2)
-                print("plot data2 set (compressed)")
+                // print("plot data2 set (compressed)")
             }
         }
     }
@@ -82,7 +82,7 @@ public class XYPlot: NSView {
     /// Raw data for plot trace 3, will not be compressed
     public var data3: [(Double, Double)] = [] {
         didSet {
-            print("PlotXY: data3 set")
+            // print("PlotXY: data3 set")
             plot3Data = data3
         }
     }
@@ -258,12 +258,12 @@ public class XYPlot: NSView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         if self.isDarkMode {
-            Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            // Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: NSColor.systemIndigo,
                     .font: fontLargeBoldItalic,
                     .paragraphStyle: paragraphStyle]
         } else {
-            Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            // Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: navy,
                     .font: fontLargeBoldItalic,
                     .paragraphStyle: paragraphStyle]
@@ -277,12 +277,12 @@ public class XYPlot: NSView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         if self.isDarkMode {
-            Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            // Swift.print("dark mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: brightBlue,
                     .font: labelFont,
                     .paragraphStyle: paragraphStyle]
         } else {
-            Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            // Swift.print("light mode !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             return [.foregroundColor: navy,
                     .font: labelFont,
                     .paragraphStyle: paragraphStyle]
@@ -464,18 +464,18 @@ public class XYPlot: NSView {
     /// - Parameter dataPoints: Raw data points, [(Double, Double)]
     /// - Returns: compressed points to plot, , [(Double, Double)]
     func getPlotPoints(dataPoints: [(Double, Double)]) -> [(Double, Double)] {
-        print("data.getPlotPoints........")
-        print("compressing...")
+        // print("data.getPlotPoints........")
+        // print("compressing...")
         // get plot segment sizes
-        print("x: max \(xMax) min \(xMin)")
-        print("y: max \(yMax) min \(yMin)")
+        // print("x: max \(xMax) min \(xMin)")
+        // print("y: max \(yMax) min \(yMin)")
         let xStep = abs(xMax - xMin) / plotSegments
         let yStep = abs(yMax - yMin) / plotSegments
         
-        print("xStep \(xStep)  yStep \(yStep)")
+        // print("xStep \(xStep)  yStep \(yStep)")
         
-        print("data values.count \(dataPoints.count)")
-        print("max plot points before compress \(maxPlotPoints)")
+        // print("data values.count \(dataPoints.count)")
+        // print("max plot points before compress \(maxPlotPoints)")
         var plotPoints = [(Double, Double)]()
         
         // compress if count over maxPlotPoints
@@ -496,7 +496,7 @@ public class XYPlot: NSView {
         } else {
             plotPoints = dataPoints
         }
-        print("XYPlot: Points to plot:", plotPoints.count)
+        // print("XYPlot: Points to plot:", plotPoints.count)
         return plotPoints
     }
     
@@ -601,7 +601,7 @@ public class XYPlot: NSView {
         }
         
         if plot2Data.count > 0 {
-            Swift.print("Drawing PlotLine 2")
+            // Swift.print("Drawing PlotLine 2")
             if plot2DrawLine {
                 plotLine(plotData: plot2Data, color: plot2Color, checkForSlices: plot2Line1Slices)
             }
@@ -614,7 +614,7 @@ public class XYPlot: NSView {
         
         // Plot Outliers
         if plot3Data.count > 0 {
-            Swift.print("Drawing PlotLine 3")
+            // Swift.print("Drawing PlotLine 3")
             if plot3DrawLine {
                 plotLine(plotData: plot3Data, color: plot3Color, checkForSlices: plot3Line1Slices )
             }
@@ -772,8 +772,8 @@ public class XYPlot: NSView {
     }
     
     func drawTitles() {
-        Swift.print()
-        Swift.print("drawTitles()...")
+        // Swift.print()
+        // Swift.print("drawTitles()...")
         if let customTitle = customTitle {
             labelTitle = customTitle
         } else {
@@ -803,9 +803,9 @@ public class XYPlot: NSView {
                        height: size.height)
 
         
-        print("rect width\(r.width)")
-        print("rect minX\(r.minX)")
-        print("rect maxX\(r.maxX)")
+        // print("rect width\(r.width)")
+        // print("rect minX\(r.minX)")
+        // print("rect maxX\(r.maxX)")
 
         labelTitle.draw(in: r)
 
@@ -888,17 +888,17 @@ public class XYPlot: NSView {
     }
     
     func getAutoScale() {
-        print("plot autoscaling...")
-        print("data1 count \(data1.count)")
+        // print("plot autoscaling...")
+        // print("data1 count \(data1.count)")
         if data1.count > 0 {
             xMin = data1[0].0
             xMax = data1[0].0
             yMin = data1[0].1
             yMax = data1[0].1
         }
-        print("Start autoscale")
-        print("x: max \(xMax) min \(xMin)")
-        print("y: max \(yMax) min \(yMin)")
+        // print("Start autoscale")
+        // print("x: max \(xMax) min \(xMin)")
+        // print("y: max \(yMax) min \(yMin)")
 
         for point in data1 {
             if point.0 > xMax {
@@ -914,9 +914,9 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        print("data1")
-        print("x: max \(xMax) min \(xMin)")
-        print("y: max \(yMax) min \(yMin)")
+        // print("data1")
+        // print("x: max \(xMax) min \(xMin)")
+        // print("y: max \(yMax) min \(yMin)")
 
         for point in data2 {
             if point.0 > xMax {
@@ -932,13 +932,13 @@ public class XYPlot: NSView {
                 yMin = point.1
             }
         }
-        print("data2")
-        print("x: max \(xMax) min \(xMin)")
-        print("y: max \(yMax) min \(yMin)")
+        // print("data2")
+        // print("x: max \(xMax) min \(xMin)")
+        // print("y: max \(yMax) min \(yMin)")
 
         
         if autoScaleX {
-            print("auto scale x")
+            // print("auto scale x")
             // xLow = xLowTemp
             // xHigh = xHighTemp
             let axis = calcAxis(length: xLabelWidth, min: xMin, max: xMax)
@@ -946,13 +946,13 @@ public class XYPlot: NSView {
             xLow = axis.from
             xHigh = axis.to
             xBy = axis.by
-            Swift.print("Axes xLow: \(xLow)   xHigh: \(xHigh)")
-            print("x: max \(xMax) min \(xMin)")
-            print("y: max \(yMax) min \(yMin)")
+            // Swift.print("Axes xLow: \(xLow)   xHigh: \(xHigh)")
+            // print("x: max \(xMax) min \(xMin)")
+            // print("y: max \(yMax) min \(yMin)")
         }
         
         if autoScaleY {
-            print("auto scale y")
+            // print("auto scale y")
             // yLow = yLowTemp
             // yHigh = yHighTemp
             // Swift.print("calling calcAxis")
@@ -967,9 +967,9 @@ public class XYPlot: NSView {
             yLow = axis.from
             yHigh = axis.to
             yBy = axis.by
-            Swift.print("Axes yLow: \(yLow)   yHigh: \(yHigh)")
-            print("x: max \(xMax) min \(xMin)")
-            print("y: max \(yMax) min \(yMin)")
+            // Swift.print("Axes yLow: \(yLow)   yHigh: \(yHigh)")
+            // print("x: max \(xMax) min \(xMin)")
+            // print("y: max \(yMax) min \(yMin)")
 
         }
     }
@@ -989,12 +989,12 @@ public class XYPlot: NSView {
     /// - to: end of axis, Double
     /// - by: distance between ticks, Double
     private func calcAxis(length: CGFloat, min: Double, max: Double, minTicks: Int, maxTicks: Int) -> (from: Double, to: Double, by: Double) {
-        print()
-        print("calcAxis()")
-        print("min \(min)")
-        print("max \(max)")
-        print("minTicks \(minTicks)")
-        print("maxTicks \(maxTicks)")
+        // print()
+        // print("calcAxis()")
+        // print("min \(min)")
+        // print("max \(max)")
+        // print("minTicks \(minTicks)")
+        // print("maxTicks \(maxTicks)")
         // let maxTicks = 12
         // let minTicks = 5
         
@@ -1051,7 +1051,7 @@ public class XYPlot: NSView {
         let from = rMin
         let to = rMax
         let by = spacing
-        print("from: \(from), to: \(to), by: \(by)")
+        // print("from: \(from), to: \(to), by: \(by)")
         return (from: from, to: to, by: by)
     }
     
